@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="AssemblyDataRef" Id="{5aabd7cd-c11c-420a-a135-7947439f20ff}">
+    <Declaration><![CDATA[/// container for all data that are used by the unit
+TYPE AssemblyDataRef :
+STRUCT
+  Config : REFERENCE TO AssemblyDataConfig; // data required for booting the unit (axes configuration, simulation, parameters that have to be written in PREOP, ...)
+  Machine : REFERENCE TO AssemblyDataMachine; // speeds, positions, ...
+  Calibration : REFERENCE TO AssemblyDataCalibration; // offsets, shifts of nominal to actual values
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

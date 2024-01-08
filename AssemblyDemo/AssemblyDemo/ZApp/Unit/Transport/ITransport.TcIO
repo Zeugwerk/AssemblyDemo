@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="ITransport" Id="{15a9683e-0e83-4913-9964-5a1ff7ef54ae}">
+    <Declaration><![CDATA[INTERFACE ITransport EXTENDS ZApplication.IUnit
+]]></Declaration>
+  </Itf>
+</TcPlcObject>

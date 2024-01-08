@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="AssemblyDataConfig" Id="{f25c89a9-d585-4ebc-8349-998ea9184a92}">
+    <Declaration><![CDATA[/// configuration data that is used during boot to configure the Units equipment
+TYPE AssemblyDataConfig :
+STRUCT
+  Simulated : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

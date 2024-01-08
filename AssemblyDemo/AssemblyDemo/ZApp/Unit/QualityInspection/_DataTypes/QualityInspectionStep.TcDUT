@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="QualityInspectionStep" Id="{3144d023-1a84-4f3a-b283-62e16174c0b1}">
+    <Declaration><![CDATA[/// This enumeration contains all steps that are used by the various sequences of a unit.
+/// Sequences use a subrange (***Begin to ***End) of this enumeration.
+{attribute 'qualified_only'}
+{attribute 'to_string'}
+TYPE QualityInspectionStep :
+(
+  Undefined := 0
+  
+  ,BootBegin
+  ,BootEnd 
+
+  ,StopBegin
+  ,StopEnd
+
+  ,AutomaticBegin
+  ,AutomaticEnd
+  
+  ,GoHomeBegin
+  ,GoHomeEnd 
+  
+  ,FaultReactionBegin
+  ,FaultReactionEnd
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

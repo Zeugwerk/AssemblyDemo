@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="DrillingDataRef" Id="{6505484b-617c-4936-ad17-8691eefd847c}">
+    <Declaration><![CDATA[/// container for all data that are used by the unit
+TYPE DrillingDataRef :
+STRUCT
+  Config : REFERENCE TO DrillingDataConfig; // data required for booting the unit (axes configuration, simulation, parameters that have to be written in PREOP, ...)
+  Machine : REFERENCE TO DrillingDataMachine; // speeds, positions, ...
+  Calibration : REFERENCE TO DrillingDataCalibration; // offsets, shifts of nominal to actual values
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

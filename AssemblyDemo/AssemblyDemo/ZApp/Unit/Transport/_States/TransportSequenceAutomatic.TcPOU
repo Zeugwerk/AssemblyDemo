@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="TransportSequenceAutomatic" Id="{0b89d26f-a2b3-4a70-adbc-7daba263116c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TransportSequenceAutomatic EXTENDS TransportSequence IMPLEMENTS ZCore.ISequence
+VAR
+  _step : ZCore.Step(TransportStep.AutomaticBegin, TransportStep.AutomaticEnd);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT Busy THEN
+  RETURN;
+END_IF
+
+IF OnStart(_step) THEN
+  ; // init custom sequence variables here ...
+END_IF
+
+IF OnStop() THEN
+  RETURN; // external stop was triggered
+END_IF
+
+IF OnHalt() THEN
+  ; // Halting := TRUE; // Uncomment to acknowledge that the sequence is halting
+END_IF
+
+REPEAT
+  LogStep();
+
+  CASE _step.Index OF
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticBegin:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN
+        ;
+      END_IF
+
+      // Await(obj1:=, nextStep:=TransportStep.AutomaticEnd);
+      _step.SetNext(TransportStep.AutomaticEnd);
+    
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticEnd:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      SetBusy(FALSE);
+  
+  ELSE
+    Abort('sequence contains unhandled step');
+  END_CASE
+UNTIL _step.IsNotRepeatable() OR_ELSE NOT Busy END_REPEAT]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

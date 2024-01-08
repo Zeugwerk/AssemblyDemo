@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="TransportComPublish" Id="{fb062354-788e-4f4d-8fb1-80a9cbd2b2eb}">
+    <Declaration><![CDATA[/// this is the container of informations that the unit wants to share with the world outside of the PLC
+/// This struct should only be read from by external applications.
+TYPE TransportComPublish :
+STRUCT
+  State : ZApplication.UnitStateMachineState; // state the unit is in
+  Request : TransportComRequest; // booleans that indictate which action is currently possible to perform with this unit
+  Equipment : TransportComPublishEquipment;  // structs for equipment objects which are used by the bridges
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

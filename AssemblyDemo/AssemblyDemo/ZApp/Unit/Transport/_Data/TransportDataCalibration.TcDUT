@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="TransportDataCalibration" Id="{a1fd903c-250a-4a1c-a1a3-9f7fa5b5ea5a}">
+    <Declaration><![CDATA[/// calibration that is determined by calibration sequences of the unit (static offsets, shifts)
+TYPE TransportDataCalibration :
+STRUCT
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="TransportStep" Id="{0156a6d2-d3bb-4b09-8f1f-ec928c6b4e4b}">
+    <Declaration><![CDATA[/// This enumeration contains all steps that are used by the various sequences of a unit.
+/// Sequences use a subrange (***Begin to ***End) of this enumeration.
+{attribute 'qualified_only'}
+{attribute 'to_string'}
+TYPE TransportStep :
+(
+  Undefined := 0
+  
+  ,BootBegin
+  ,BootEnd 
+
+  ,StopBegin
+  ,StopEnd
+
+  ,AutomaticBegin
+  ,AutomaticEnd
+  
+  ,GoHomeBegin
+  ,GoHomeStartHomingOfChilds
+  ,GoHomeEnd 
+  
+  ,FaultReactionBegin
+  ,FaultReactionEnd
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

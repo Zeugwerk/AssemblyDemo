@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="DrillingEquipment" Id="{711ca22c-b067-4cf7-8ff8-a87becef7fac}" SpecialFunc="None">
+    <Declaration><![CDATA[/// This function block is a container for equipment that is used by this unit.
+/// Equipment is grouped by its kind (actuator, axes, io, ...).
+/// It extends from [ManagedObjectContainer](xref:ZCore.ManagedObjectContainer) such that the parent
+/// (= the unit itself) can be passed to equipment instances.
+FUNCTION_BLOCK DrillingEquipment EXTENDS DrillingContainer
+VAR_INPUT
+  Io : DrillingIo(_parent);
+  Actuator : DrillingActuator(_parent);
+  Axis : DrillingAxis(_parent);
+  Fieldbus : DrillingFieldbus(_parent);
+  Unit : DrillingLinkedUnit(_parent);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

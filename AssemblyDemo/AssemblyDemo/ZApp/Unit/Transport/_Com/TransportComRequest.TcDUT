@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="TransportComRequest" Id="{4239fc08-0f71-47c6-b02b-466e04d50aca}">
+    <Declaration><![CDATA[TYPE TransportComRequest :
+STRUCT
+  Start : BOOL;
+  Stop : BOOL;
+  GoHome : BOOL;
+  Halt : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

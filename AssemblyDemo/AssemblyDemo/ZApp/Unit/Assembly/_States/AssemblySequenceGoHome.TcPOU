@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AssemblySequenceGoHome" Id="{c7e14c22-b680-4463-802e-7332b19739bf}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AssemblySequenceGoHome EXTENDS AssemblySequence IMPLEMENTS ZCore.ISequence
+VAR
+  _step : ZCore.Step(AssemblyStep.GohomeBegin, AssemblyStep.GohomeEnd);
+  _timer : ZAux.Timer;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT Busy THEN
+  RETURN;
+END_IF
+
+IF OnStart(_step) THEN
+  ; // init custom sequence variables here ...
+END_IF
+
+IF OnStop() THEN
+  RETURN; // external stop was triggered
+END_IF
+
+IF OnHalt() THEN
+  ; // Halting := TRUE; // Uncomment to acknowledge that the sequence is halting
+END_IF
+
+REPEAT
+  LogStep();
+
+  CASE _step.Index OF
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    AssemblyStep.GoHomeBegin:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN
+        _timer.WaitAsync(2);
+			END_IF
+      
+      Await(_timer, nextStep:=AssemblyStep.GoHomeGoToHomePos);
+      // _step.SetNext(index:=AssemblyStep.GoHomeEnd);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    AssemblyStep.GoHomeGoToHomePos:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _axis.Vertical.MoveAbsoluteAsync(THIS^, 10.0, 2.0);
+      END_IF
+      
+      Await(obj1:=_axis.Vertical, nextStep:=AssemblyStep.GoHomeEnd);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    AssemblyStep.GoHomeEnd:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      SetBusy(FALSE);
+  
+  ELSE
+    Abort('sequence contains unhandled step');
+  END_CASE
+UNTIL _step.IsNotRepeatable() OR_ELSE NOT Busy END_REPEAT]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

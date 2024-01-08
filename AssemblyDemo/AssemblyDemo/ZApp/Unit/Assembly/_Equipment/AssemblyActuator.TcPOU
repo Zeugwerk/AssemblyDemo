@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AssemblyActuator" Id="{8cef29ea-96cc-4620-b36d-2efebf2e7091}" SpecialFunc="None">
+    <Declaration><![CDATA[/// This function block is a container for all actuator objects that are used by this unit.
+/// The parent of all objects can be directly transfered in their constructor (this is only relevant for equipment objects
+/// that have to be managed (e.g. [DebouncedInput](xref:ZEquipment.DebouncedInput), [Light](xref:ZEquipment.Light), ...).
+FUNCTION_BLOCK AssemblyActuator EXTENDS AssemblyContainer
+VAR
+  {attribute 'hide'}
+  _actuatorbridge : ZApplication.ActuatorBridge(_parent);
+  {attribute 'hide'}
+  _iobridge : ZApplication.IoBridge(_parent);
+END_VAR
+VAR_INPUT
+
+{region "Horizontal : ActuatorDigitalBiLsPlusMinus"}
+  Horizontal : AssemblyActuatorHorizontal(_parent);
+  {attribute 'ZId' := 'bf04a1fd-9e2a-444c-be25-15a99c5011b8'}
+{endregion}
+
+{attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF _isInitialized
+THEN
+  RETURN;
+END_IF
+
+  _actuatorbridge.SetLogger(_parent._logger);
+
+{region "Horizontal : ActuatorDigitalBiLsPlusMinus"}
+  Horizontal.SetLogger(_parent._logger);
+  Horizontal.SetName(name:='Horizontal', movePlusName:='Auf', moveMinusName:='Zu', plusName:='Offen', minusName:='Geschlossen');
+  Horizontal.SetSimulation(SEL(_parent._data.Config.Simulated, ActuatorDigitalSimulation.Disabled, ZEquipment.ActuatorDigitalSimulation.Automatic));
+  Horizontal.SetSimulationUncertainty(uncertainty:=10);
+  Horizontal.SetDelay(plusStartDuration:=0, plusEndDuration:=0, minusStartDuration:=0, minusEndDuration:=0, stop:=0);
+  Horizontal.SetSwitchDuration(plusDuration:=0.2, minusDuration:=0.2);
+  Horizontal.SetMovementDuration(plusDuration:=3, minusDuration:=3);
+  Horizontal.SetTimeout(plusDuration:=5, minusDuration:=5);
+  _actuatorbridge.AddActuatorDigital(Horizontal, publish := _parent._com.Publish.Equipment.Horizontal, subscribe := _parent._com.Subscribe.Equipment.Horizontal);
+  _iobridge.AddDigitalOutput(Horizontal.MinusOutput, publish := _parent._com.Publish.Equipment.HorizontalZu, subscribe := _parent._com.Subscribe.Equipment.HorizontalZu);
+  _iobridge.AddDigitalOutput(Horizontal.PlusOutput, publish := _parent._com.Publish.Equipment.HorizontalAuf, subscribe := _parent._com.Subscribe.Equipment.HorizontalAuf);
+  _iobridge.AddDigitalInput(Horizontal.MinusInput, publish := _parent._com.Publish.Equipment.HorizontalGeschlossen, subscribe := _parent._com.Subscribe.Equipment.HorizontalGeschlossen);
+  _iobridge.AddDigitalInput(Horizontal.PlusInput, publish := _parent._com.Publish.Equipment.HorizontalOffen, subscribe := _parent._com.Subscribe.Equipment.HorizontalOffen);
+  {region "UserInitCode"}
+  // put your individual init code for this Actuator here
+  {endregion}
+
+  {attribute 'ZId' := 'bf04a1fd-9e2a-444c-be25-15a99c5011b8'}
+{endregion}
+
+{attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
+
+_isInitialized := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

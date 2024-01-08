@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ZDataRecipe" Id="{940adc8c-1eee-4505-b23a-b0b20f8a18c6}">
+    <Declaration><![CDATA[TYPE ZDataRecipe :
+STRUCT
+  RecipeParam1 : LREAL;
+  RecipeParam2 : LREAL;
+  RecipeParam3 : LREAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

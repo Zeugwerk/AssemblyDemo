@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="TransportDataRef" Id="{bd174b2d-c3fd-4578-b688-1a9c1b95103b}">
+    <Declaration><![CDATA[/// container for all data that are used by the unit
+TYPE TransportDataRef :
+STRUCT
+  Config : REFERENCE TO TransportDataConfig; // data required for booting the unit (axes configuration, simulation, parameters that have to be written in PREOP, ...)
+  Machine : REFERENCE TO TransportDataMachine; // speeds, positions, ...
+  Calibration : REFERENCE TO TransportDataCalibration; // offsets, shifts of nominal to actual values
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

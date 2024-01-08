@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="DrillingComRef" Id="{528e63aa-4924-46de-8a52-bc5aecd7c7c3}">
+    <Declaration><![CDATA[/// container for all communication data types that are used by the unit
+TYPE DrillingComRef :
+STRUCT
+  Publish : REFERENCE TO DrillingComPublish; 
+  Subscribe : REFERENCE TO DrillingComSubscribe; 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

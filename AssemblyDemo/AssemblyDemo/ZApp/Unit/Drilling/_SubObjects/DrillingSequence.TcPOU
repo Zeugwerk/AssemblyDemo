@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="DrillingSequence" Id="{8cc61c51-1a63-42cc-9950-754adf37329b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK DrillingSequence EXTENDS ZApplication.Sequence
+VAR
+  {attribute 'hide'}
+  _parent : REFERENCE TO DrillingUnit;
+  _io : REFERENCE TO DrillingIo;
+  _actuator : REFERENCE TO DrillingActuator;
+  _fieldbus : REFERENCE TO DrillingFieldbus;
+  _axis : REFERENCE TO DrillingAxis;
+  _data : REFERENCE TO DrillingDataRef;
+  _unit : REFERENCE TO DrillingLinkedUnit;  
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{17a6cf93-15f8-42ac-93c8-bc4293aa5eda}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+  bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+  bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+  unit : REFERENCE TO DrillingUnit;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_parent REF= unit;
+_alarming := unit._alarming;
+_io REF= unit._equipment.Io;
+_actuator REF= unit._equipment.Actuator;
+_fieldbus REF= unit._equipment.Fieldbus;
+_axis REF= unit._equipment.Axis;
+_unit REF= unit._equipment.Unit;
+_data REF= unit._data;
+_loggerDiagnostics.SetLogger(unit._logger);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StepDecoded" Id="{f19697e5-0936-4a00-8272-c0bada42c60b}">
+      <Declaration><![CDATA[METHOD StepDecoded : ZCore.ZString
+VAR_INPUT
+  stepIndex : INT;
+END_VAR
+VAR_INST
+  _stepIndexDecoded : DrillingStep;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_stepIndexDecoded := stepIndex;
+stepDecoded := TO_STRING(_stepIndexDecoded);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

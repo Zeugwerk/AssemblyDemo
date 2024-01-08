@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="AssemblyComPublishEquipment" Id="{05a7efca-ddc2-4593-94df-59607caf2f64}">
+    <Declaration><![CDATA[TYPE AssemblyComPublishEquipment :
+STRUCT
+
+{region "Vertical : Axis"}
+  Vertical : ZApplication.AxisComPublish;
+  {attribute 'ZId' := '59ce020b-a4f8-4d7a-a0dc-8b778ee4fde8'}
+{endregion}
+
+{region "Horizontal : ActuatorDigital"}
+  Horizontal : ZApplication.ActuatorDigitalComPublish;
+  HorizontalZu : ZApplication.DigitalComPublish;
+  HorizontalAuf : ZApplication.DigitalComPublish;
+  HorizontalGeschlossen : ZApplication.DigitalComPublish;
+  HorizontalOffen : ZApplication.DigitalComPublish;
+  {attribute 'ZId' := 'bf04a1fd-9e2a-444c-be25-15a99c5011b8'}
+{endregion}
+
+{attribute '__ZwPlcUnitComDeclaration__'} // Do not remove this attribute! It is used for code generation.
+
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

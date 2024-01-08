@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="QualityInspectionSequenceGoHome" Id="{188d8d50-51df-475b-a90d-4638a1ff4954}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK QualityInspectionSequenceGoHome EXTENDS QualityInspectionSequence IMPLEMENTS ZCore.ISequence
+VAR
+  _step : ZCore.Step(QualityInspectionStep.GohomeBegin, QualityInspectionStep.GohomeEnd);
+  _timer : ZAux.Timer;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT Busy THEN
+  RETURN;
+END_IF
+
+IF OnStart(_step) THEN
+  ; // init custom sequence variables here ...
+END_IF
+
+IF OnStop() THEN
+  RETURN; // external stop was triggered
+END_IF
+
+IF OnHalt() THEN
+  ; // Halting := TRUE; // Uncomment to acknowledge that the sequence is halting
+END_IF
+
+REPEAT
+  LogStep();
+
+  CASE _step.Index OF
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    QualityInspectionStep.GoHomeBegin:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN
+        _timer.WaitAsync(2);
+			END_IF
+      
+      Await(_timer, nextStep:=QualityInspectionStep.GoHomeEnd);
+      // _step.SetNext(index:=QualityInspectionStep.GoHomeEnd);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    QualityInspectionStep.GoHomeEnd:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      SetBusy(FALSE);
+  
+  ELSE
+    Abort('sequence contains unhandled step');
+  END_CASE
+UNTIL _step.IsNotRepeatable() OR_ELSE NOT Busy END_REPEAT]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

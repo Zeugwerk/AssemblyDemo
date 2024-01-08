@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="DrillingDataConfig" Id="{9d9ea9e1-4d3c-495a-9ce7-6db9ce3cf199}">
+    <Declaration><![CDATA[/// configuration data that is used during boot to configure the Units equipment
+TYPE DrillingDataConfig :
+STRUCT
+  Simulated : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AssemblySequenceBoot" Id="{0681ca68-ac14-4757-ba46-36358d4736a5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AssemblySequenceBoot EXTENDS AssemblySequence IMPLEMENTS ZCore.ISequence
+VAR
+  _step : ZCore.Step(AssemblyStep.BootBegin, AssemblyStep.BootEnd);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF OnStart(_step) THEN
+  ; // init custom sequence variables here ...
+END_IF
+
+REPEAT
+  LogStep();
+
+  CASE _step.Index OF
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    AssemblyStep.BootBegin:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN
+        // initialize equipment
+        _io();
+        _actuator();
+        _fieldbus();
+        _axis();
+        _unit();
+      END_IF
+      
+      _parent._objectManager.Cyclic();      
+      Assert(_parent._objectManager);
+      IF _parent._objectManager.Done
+      THEN
+        _step.SetNext(AssemblyStep.BootEnd);
+      END_IF
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    AssemblyStep.BootEnd:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      SetBusy(FALSE);
+      
+  ELSE
+    Abort('sequence contains unhandled step');
+  END_CASE
+UNTIL _step.IsNotRepeatable() OR_ELSE NOT Busy END_REPEAT]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

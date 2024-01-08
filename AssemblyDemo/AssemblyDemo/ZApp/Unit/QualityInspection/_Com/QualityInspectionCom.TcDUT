@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="QualityInspectionCom" Id="{7f6e9888-d621-4a14-86e2-3299c5f40873}">
+    <Declaration><![CDATA[/// This struct contains variables that
+/// * are read from outside (e.g. HMI) to retrieve information about the unit's current state and (temporary) parameters (= `publish`) 
+/// * are written from outside (e.g. HMI) to control the unit via ADS (= `subscribe`) 
+TYPE QualityInspectionCom :
+STRUCT
+  Publish : QualityInspectionComPublish;
+  Subscribe : QualityInspectionComSubscribe;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

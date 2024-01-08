@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="IAssembly" Id="{dbe0929f-decf-46b0-916d-b95a28c0666d}">
+    <Declaration><![CDATA[INTERFACE IAssembly EXTENDS ZApplication.IUnit
+]]></Declaration>
+  </Itf>
+</TcPlcObject>

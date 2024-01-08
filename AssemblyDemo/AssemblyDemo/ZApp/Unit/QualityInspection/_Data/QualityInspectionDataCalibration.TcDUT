@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="QualityInspectionDataCalibration" Id="{e0ea9562-96b9-49be-8fbc-773481e28690}">
+    <Declaration><![CDATA[/// calibration that is determined by calibration sequences of the unit (static offsets, shifts)
+TYPE QualityInspectionDataCalibration :
+STRUCT
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

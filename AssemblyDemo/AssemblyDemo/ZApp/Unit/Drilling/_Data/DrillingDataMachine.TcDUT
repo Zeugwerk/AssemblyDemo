@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="DrillingDataMachine" Id="{077cd7c8-f83d-4813-af34-c29f710727f7}">
+    <Declaration><![CDATA[/// machine data that is used through most sequences of the unit (motor speed, axes positions, ...)
+TYPE DrillingDataMachine :
+STRUCT
+  Slowspeed : LREAL;
+  Highspeed : LREAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

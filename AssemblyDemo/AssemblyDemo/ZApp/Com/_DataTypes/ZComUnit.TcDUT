@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ZComUnit" Id="{41e05043-34fb-4f39-8082-7b126f168286}">
+    <Declaration><![CDATA[TYPE ZComUnit :
+STRUCT
+{region "Transport"}
+{IF NOT (defined (Transport_disabled))}
+  Transport : TransportCom;
+  {attribute 'ZId' := '413070d6-61de-4759-aae5-e3ab76278fe1'}
+{END_IF}
+{endregion}
+{region "Drilling"}
+{IF NOT (defined (Drilling_disabled))}
+  Drilling : DrillingCom;
+  {attribute 'ZId' := 'a0f6f6d1-15cf-44f1-8585-ff8bdaab6c0e'}
+{END_IF}
+{endregion}
+{region "Assembly"}
+{IF NOT (defined (Assembly_disabled))}
+  Assembly : AssemblyCom;
+  {attribute 'ZId' := 'fe48c71e-df5c-4f02-81a6-6f01ddca37c0'}
+{END_IF}
+{endregion}
+{region "QualityInspection"}
+{IF NOT (defined (QualityInspection_disabled))}
+  QualityInspection : QualityInspectionCom;
+  {attribute 'ZId' := 'a1721ee9-e163-4dba-818e-d45d6db51cc5'}
+{END_IF}
+{endregion}
+{attribute '__ZwPlcApplicationComUnitDeclaration__'} // Do not remove this attribute! It is used for code generation.
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

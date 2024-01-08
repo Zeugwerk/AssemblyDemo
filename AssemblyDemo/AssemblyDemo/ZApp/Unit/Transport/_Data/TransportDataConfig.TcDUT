@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="TransportDataConfig" Id="{86f1ef5d-332b-4c2f-a801-e2a634ca7536}">
+    <Declaration><![CDATA[/// configuration data that is used during boot to configure the Units equipment
+TYPE TransportDataConfig :
+STRUCT
+  Simulated : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

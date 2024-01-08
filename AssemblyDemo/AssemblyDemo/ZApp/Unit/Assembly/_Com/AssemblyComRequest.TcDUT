@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="AssemblyComRequest" Id="{f05e98db-850b-4817-8a45-a28700d114ca}">
+    <Declaration><![CDATA[TYPE AssemblyComRequest :
+STRUCT
+  Start : BOOL;
+  Stop : BOOL;
+  GoHome : BOOL;
+  Halt : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

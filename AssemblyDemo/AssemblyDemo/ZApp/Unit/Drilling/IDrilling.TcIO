@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="IDrilling" Id="{0f3e0cad-1965-4457-b473-4fa596cfe2cb}">
+    <Declaration><![CDATA[INTERFACE IDrilling EXTENDS ZApplication.IUnit
+]]></Declaration>
+  </Itf>
+</TcPlcObject>

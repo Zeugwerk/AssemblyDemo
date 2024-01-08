@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AssemblyUnitProgram" Id="{071f1592-7797-404a-a707-77e5258196c8}" SpecialFunc="None">
+    <Declaration><![CDATA[/// each unit can run in its own PROGRAM and Task, respectively. However, this is optional and one may also
+/// instantiate the unit in the ModuleProgram.
+/// In order to keep initialization to a minimum, all ModuleContext objects that are required by the Unit are
+/// given as FB_init parameter. These objects are
+/// * data structs
+/// * communication structs
+/// * busmaster(s)
+/// A unit should always be a root object (no parent) if it is running in its own context. If it runs in the same
+/// task as the Module the parent may be set to the Module's Application.
+PROGRAM AssemblyUnitProgram
+VAR
+{region "Assembly"}
+{undefine RunInSeparateProgram}
+{IF NOT (defined (Assembly_disabled)) AND (defined (RunInSeparateProgram))}
+  Assembly : AssemblyUnit(name := 'Assembly', // name of the unit (for logging)
+					  parent := 0, // caller of the Unit's cyclic method. If the Unit runs in its own context use 0
+						configdata := ZGlobal.Data.Config.Assembly,
+						machinedata := ZGlobal.Data.Machine.Assembly,
+						calibrationdata := ZGlobal.Data.Calibration.Assembly,
+						com := ZGlobal.Com.Unit.Assembly);
+  {attribute 'section' := '__ZwPlcUnitProgramDeclaration__'}
+  {attribute 'ZId' := 'fe48c71e-df5c-4f02-81a6-6f01ddca37c0'}
+{END_IF}
+{endregion}
+{attribute '__ZwPlcUnitProgramDeclaration__'} // Do not remove this attribute! It is used for code generation.
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// run the unit - the cylics of all children will be called as well
+
+{region "Assembly"}
+{undefine RunInSeparateProgram}
+{IF NOT (defined (Assembly_disabled)) AND (defined (RunInSeparateProgram))}
+  Assembly.Cyclic();
+  {attribute 'section' := '__ZwPlcUnitProgramImplementation__'}
+  {attribute 'ZId' := 'fe48c71e-df5c-4f02-81a6-6f01ddca37c0'}
+{END_IF}
+{endregion}
+{attribute '__ZwPlcUnitProgramImplementation__'} // Do not remove this attribute! It is used for code generation.
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

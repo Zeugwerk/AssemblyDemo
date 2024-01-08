@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="QualityInspectionSequence" Id="{47004361-37a0-47d0-a755-5f8d77a1952a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK QualityInspectionSequence EXTENDS ZApplication.Sequence
+VAR
+  {attribute 'hide'}
+  _parent : REFERENCE TO QualityInspectionUnit;
+  _io : REFERENCE TO QualityInspectionIo;
+  _actuator : REFERENCE TO QualityInspectionActuator;
+  _fieldbus : REFERENCE TO QualityInspectionFieldbus;
+  _axis : REFERENCE TO QualityInspectionAxis;
+  _data : REFERENCE TO QualityInspectionDataRef;
+  _unit : REFERENCE TO QualityInspectionLinkedUnit;  
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{68b33261-dbd3-4cb8-8380-cdd826add573}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+  bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+  bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+  unit : REFERENCE TO QualityInspectionUnit;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_parent REF= unit;
+_alarming := unit._alarming;
+_io REF= unit._equipment.Io;
+_actuator REF= unit._equipment.Actuator;
+_fieldbus REF= unit._equipment.Fieldbus;
+_axis REF= unit._equipment.Axis;
+_unit REF= unit._equipment.Unit;
+_data REF= unit._data;
+_loggerDiagnostics.SetLogger(unit._logger);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StepDecoded" Id="{16e93d8c-3f22-4ea4-b194-96440039f078}">
+      <Declaration><![CDATA[METHOD StepDecoded : ZCore.ZString
+VAR_INPUT
+  stepIndex : INT;
+END_VAR
+VAR_INST
+  _stepIndexDecoded : QualityInspectionStep;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_stepIndexDecoded := stepIndex;
+stepDecoded := TO_STRING(_stepIndexDecoded);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

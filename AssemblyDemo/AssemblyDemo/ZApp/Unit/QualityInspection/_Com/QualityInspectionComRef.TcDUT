@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="QualityInspectionComRef" Id="{7fc5393d-3693-429e-a9f3-dd5517ac3e08}">
+    <Declaration><![CDATA[/// container for all communication data types that are used by the unit
+TYPE QualityInspectionComRef :
+STRUCT
+  Publish : REFERENCE TO QualityInspectionComPublish; 
+  Subscribe : REFERENCE TO QualityInspectionComSubscribe; 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="DrillingActuator" Id="{5cfc17a5-078e-4d74-8c55-ee2fa13e8440}" SpecialFunc="None">
+    <Declaration><![CDATA[/// This function block is a container for all actuator objects that are used by this unit.
+/// The parent of all objects can be directly transfered in their constructor (this is only relevant for equipment objects
+/// that have to be managed (e.g. [DebouncedInput](xref:ZEquipment.DebouncedInput), [Light](xref:ZEquipment.Light), ...).
+FUNCTION_BLOCK DrillingActuator EXTENDS DrillingContainer
+VAR
+  {attribute 'hide'}
+  _actuatorbridge : ZApplication.ActuatorBridge(_parent);
+  {attribute 'hide'}
+  _iobridge : ZApplication.IoBridge(_parent);
+END_VAR
+VAR_INPUT
+
+{region "Vertical : ActuatorDigitalBiLsPlusMinus"}
+  Vertical : DrillingActuatorVertical(_parent);
+  {attribute 'ZId' := '6edc2aeb-8e0c-4ef7-9533-2d3679311649'}
+{endregion}
+
+{attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF _isInitialized
+THEN
+  RETURN;
+END_IF
+
+  _actuatorbridge.SetLogger(_parent._logger);
+
+{region "Vertical : ActuatorDigitalBiLsPlusMinus"}
+  Vertical.SetLogger(_parent._logger);
+  Vertical.SetName(name:='Vertical', movePlusName:='Auf', moveMinusName:='Zu', plusName:='Offen', minusName:='Geschlossen');
+  Vertical.SetSimulation(SEL(_parent._data.Config.Simulated, ActuatorDigitalSimulation.Disabled, ZEquipment.ActuatorDigitalSimulation.Automatic));
+  Vertical.SetSimulationUncertainty(uncertainty:=10);
+  Vertical.SetDelay(plusStartDuration:=0, plusEndDuration:=0, minusStartDuration:=0, minusEndDuration:=0, stop:=0);
+  Vertical.SetSwitchDuration(plusDuration:=0.2, minusDuration:=0.2);
+  Vertical.SetMovementDuration(plusDuration:=3, minusDuration:=3);
+  Vertical.SetTimeout(plusDuration:=5, minusDuration:=5);
+  _actuatorbridge.AddActuatorDigital(Vertical, publish := _parent._com.Publish.Equipment.Vertical, subscribe := _parent._com.Subscribe.Equipment.Vertical);
+  _iobridge.AddDigitalOutput(Vertical.MinusOutput, publish := _parent._com.Publish.Equipment.VerticalZu, subscribe := _parent._com.Subscribe.Equipment.VerticalZu);
+  _iobridge.AddDigitalOutput(Vertical.PlusOutput, publish := _parent._com.Publish.Equipment.VerticalAuf, subscribe := _parent._com.Subscribe.Equipment.VerticalAuf);
+  _iobridge.AddDigitalInput(Vertical.MinusInput, publish := _parent._com.Publish.Equipment.VerticalGeschlossen, subscribe := _parent._com.Subscribe.Equipment.VerticalGeschlossen);
+  _iobridge.AddDigitalInput(Vertical.PlusInput, publish := _parent._com.Publish.Equipment.VerticalOffen, subscribe := _parent._com.Subscribe.Equipment.VerticalOffen);
+  {region "UserInitCode"}
+  // put your individual init code for this Actuator here
+  {endregion}
+
+  {attribute 'ZId' := '6edc2aeb-8e0c-4ef7-9533-2d3679311649'}
+{endregion}
+
+{attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
+
+_isInitialized := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

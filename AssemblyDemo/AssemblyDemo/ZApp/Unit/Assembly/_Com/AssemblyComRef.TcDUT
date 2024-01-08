@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="AssemblyComRef" Id="{98f16b6f-19d9-4509-9cce-a841e41ee437}">
+    <Declaration><![CDATA[/// container for all communication data types that are used by the unit
+TYPE AssemblyComRef :
+STRUCT
+  Publish : REFERENCE TO AssemblyComPublish; 
+  Subscribe : REFERENCE TO AssemblyComSubscribe; 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="QualityInspectionDataRef" Id="{3b72757c-9aea-4305-850a-f68f2745a881}">
+    <Declaration><![CDATA[/// container for all data that are used by the unit
+TYPE QualityInspectionDataRef :
+STRUCT
+  Config : REFERENCE TO QualityInspectionDataConfig; // data required for booting the unit (axes configuration, simulation, parameters that have to be written in PREOP, ...)
+  Machine : REFERENCE TO QualityInspectionDataMachine; // speeds, positions, ...
+  Calibration : REFERENCE TO QualityInspectionDataCalibration; // offsets, shifts of nominal to actual values
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

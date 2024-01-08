@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ZModuleProgram" Id="{a120f957-5953-492b-ac4f-29b84ddfacdc}" SpecialFunc="None">
+    <Declaration><![CDATA[/// Zeugwerk Application
+PROGRAM ZModuleProgram
+VAR
+{region "ZModuleProgram : Utility"}
+  App : ZApp(name:='Zeugwerk-Application Template', com:=ZGlobal.Com.App);
+  Datetime : ZAux.DateTimeUM;
+  {attribute 'ZId' := ''}
+{endregion}
+{region "ZModuleProgram : Logging"}
+  Alarming : ZApplication.Alarming(App, datetime := Datetime, com := ZGlobal.Com.Alarming);
+  LoggerHmi : ZApplication.Messaging(App, datetime := Datetime, com := ZGlobal.Com.Messages);
+  LoggerFile : ZAux.LoggerFile7FF(App, datetime := Datetime, filePath:='C:\Zeugwerk\logs\messages.log', target:='');
+  Logger : ZAux.Logging;
+  {attribute 'ZId' := ''}
+{endregion}  
+{attribute '__ZwPlcApplicationModuleProgramDeclaration__'} // Do not remove this attribute! It is used for code generation.
+{region "Transport"}
+{undefine RunInSeparateProgram}
+{IF NOT (defined (Transport_disabled)) AND NOT (defined (RunInSeparateProgram))}
+  Transport : TransportUnit(name := 'Transport', // name of the unit (for logging)
+					  parent := App, // caller of the Unit's cyclic method. If the Unit runs in its own context use 0
+						configdata := ZGlobal.Data.Config.Transport,
+						machinedata := ZGlobal.Data.Machine.Transport,
+						calibrationdata := ZGlobal.Data.Calibration.Transport,
+						com := ZGlobal.Com.Unit.Transport);
+  {attribute 'section' := '__ZwPlcUnitProgramDeclaration__'}
+  {attribute 'ZId' := '413070d6-61de-4759-aae5-e3ab76278fe1'}
+{END_IF}
+{endregion}
+{region "Drilling"}
+{undefine RunInSeparateProgram}
+{IF NOT (defined (Drilling_disabled)) AND NOT (defined (RunInSeparateProgram))}
+  Drilling : DrillingUnit(name := 'Drilling', // name of the unit (for logging)
+					  parent := App, // caller of the Unit's cyclic method. If the Unit runs in its own context use 0
+						configdata := ZGlobal.Data.Config.Drilling,
+						machinedata := ZGlobal.Data.Machine.Drilling,
+						calibrationdata := ZGlobal.Data.Calibration.Drilling,
+						com := ZGlobal.Com.Unit.Drilling);
+  {attribute 'section' := '__ZwPlcUnitProgramDeclaration__'}
+  {attribute 'ZId' := 'a0f6f6d1-15cf-44f1-8585-ff8bdaab6c0e'}
+{END_IF}
+{endregion}
+{region "Assembly"}
+{undefine RunInSeparateProgram}
+{IF NOT (defined (Assembly_disabled)) AND NOT (defined (RunInSeparateProgram))}
+  Assembly : AssemblyUnit(name := 'Assembly', // name of the unit (for logging)
+					  parent := App, // caller of the Unit's cyclic method. If the Unit runs in its own context use 0
+						configdata := ZGlobal.Data.Config.Assembly,
+						machinedata := ZGlobal.Data.Machine.Assembly,
+						calibrationdata := ZGlobal.Data.Calibration.Assembly,
+						com := ZGlobal.Com.Unit.Assembly);
+  {attribute 'section' := '__ZwPlcUnitProgramDeclaration__'}
+  {attribute 'ZId' := 'fe48c71e-df5c-4f02-81a6-6f01ddca37c0'}
+{END_IF}
+{endregion}
+{region "QualityInspection"}
+{undefine RunInSeparateProgram}
+{IF NOT (defined (QualityInspection_disabled)) AND NOT (defined (RunInSeparateProgram))}
+  QualityInspection : QualityInspectionUnit(name := 'QualityInspection', // name of the unit (for logging)
+					  parent := App, // caller of the Unit's cyclic method. If the Unit runs in its own context use 0
+						configdata := ZGlobal.Data.Config.QualityInspection,
+						machinedata := ZGlobal.Data.Machine.QualityInspection,
+						calibrationdata := ZGlobal.Data.Calibration.QualityInspection,
+						com := ZGlobal.Com.Unit.QualityInspection);
+  {attribute 'section' := '__ZwPlcUnitProgramDeclaration__'}
+  {attribute 'ZId' := 'a1721ee9-e163-4dba-818e-d45d6db51cc5'}
+{END_IF}
+{endregion}
+{attribute '__ZwPlcUnitProgramDeclaration__'} // Do not remove this attribute! It is used for code generation.
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[{region "ZModuleProgram : Utility"}
+  Datetime.Cyclic();
+  App.Cyclic();
+  {attribute 'ZId' := ''}
+{endregion}
+{attribute '__ZwPlcApplicationModuleProgramImplementation__'} // Do not remove this attribute! It is used for code generation.
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

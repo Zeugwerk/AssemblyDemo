@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="TransportUnit" Id="{879a5a1d-4930-4f01-b722-38797b4f7271}" SpecialFunc="None">
+    <Declaration><![CDATA[/// Declaration of a distinct unit of this application
+FUNCTION_BLOCK TransportUnit EXTENDS ZApplication.Unit IMPLEMENTS ITransport, ZAux.IStateMachineListener
+VAR
+  _equipment : TransportEquipment(THIS^);
+  _data : TransportDataRef;
+  _com : TransportComRef;
+
+  _boot : TransportSequenceBoot(THIS^);
+  _automatic : TransportSequenceAutomatic(THIS^);
+  _stop : TransportSequenceStop(THIS^);
+  _gohome : TransportSequenceGoHome(THIS^);
+  _faultReaction : TransportSequenceFaultReaction(THIS^);
+  
+  _statemachine : ZApplication.UnitStateMachine;
+
+  _observeTimer : ZAux.Timer;
+END_VAR
+
+{attribute 'ZId' := '086a579c-dc1b-407f-8e70-5b7d4742c739'}]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF _observeTimer.Done THEN
+  _observeTimer.WaitAsync(0.1);
+  
+  // monitor _com for requested actions (e.g. start homing, start automatic mode, ...)
+  ObserveRequest(_com.Subscribe.Request.Start, ZApplication.UnitStateMachineState.Automatic);
+  ObserveRequest(_com.Subscribe.Request.Stop, ZApplication.UnitStateMachineState.Stop);
+  ObserveRequest(_com.Subscribe.Request.GoHome, ZApplication.UnitStateMachineState.GoHome);
+  ObserveRequest(_com.Subscribe.Request.Halt, ZApplication.UnitStateMachineState.Halt);
+  
+  // provide relevant information via ADS
+  _com.Publish.Request.Stop := _stateMachine.IsTransitionAllowed(ZApplication.UnitStateMachineState.Stop);
+  _com.Publish.Request.Start := _stateMachine.IsTransitionAllowed(ZApplication.UnitStateMachineState.Automatic);
+  _com.Publish.Request.GoHome := _stateMachine.IsTransitionAllowed(ZApplication.UnitStateMachineState.GoHome);
+  _com.Publish.Request.Halt := _stateMachine.IsTransitionAllowed(ZApplication.UnitStateMachineState.Halt);
+
+  _com.Publish.State := _stateMachine.State();
+END_IF]]></ST>
+    </Implementation>
+    <Folder Name="StateMachineInterface" Id="{9eba5702-90b2-4090-81da-0d0ce1038523}" />
+    <Folder Name="UnitInterface" Id="{c6e28038-a641-4ce3-92e0-885cb525d0fb}" />
+    <Method Name="FB_init" Id="{6bd3c4cb-80fc-4156-9ae9-b6c31c741594}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+  bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+  bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+  parent : ZCore.IManagedObject; // caller of the Unit's cyclic method. If the Unit runs in its own context use 0
+  name : ZCore.ZString;  // name of this unit as it should show up in the logger
+  configdata : REFERENCE TO TransportDataConfig;  // reference to the configuration data that is used during boot to configure the Units equipment
+  machinedata : REFERENCE TO TransportDataMachine; // reference to the machine data that is used through most sequences of the unit (motor speed, axes positions, ...)
+  calibrationdata : REFERENCE TO TransportDataCalibration;  // reference to calibration that is determined by calibration sequences of the unit (static offsets, shifts)
+  com : REFERENCE TO TransportCom;  // reference to the communication interface that is used to control this Unit via ADS
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_name := name;
+
+// initialize local logger decorator
+_loggerDecorator.FB_init(bInitRetains, bInCopyCode, name, ZModuleProgram.Logger);
+_alarmingDecorator.FB_init(bInitRetains, bInCopyCode, name, ZModuleProgram.Alarming);
+
+// setup data
+_data.Config REF= configdata;
+_data.Machine REF= machinedata;
+_data.Calibration REF= calibrationdata;
+_com.Publish REF= com.Publish;
+_com.Subscribe REF= com.Subscribe;
+
+// ------- sequence initialization, map sequences of this unit to the statemachine -------
+{attribute '__ZwPlcUnitInitSequenceImplementation__'} // Do not remove this attribute! It is used for code generation.
+_statemachine.SetSequence(ZApplication.UnitStateMachineState.Boot, _boot);
+_statemachine.SetSequence(ZApplication.UnitStateMachineState.FaultReaction, _faultReaction);
+_statemachine.SetSequence(ZApplication.UnitStateMachineState.Gohome, _gohome);
+_statemachine.SetSequence(ZApplication.UnitStateMachineState.Stop, _stop);
+_statemachine.SetSequence(ZApplication.UnitStateMachineState.Automatic, _automatic);
+
+_statemachine.SetName(_name);
+_statemachine.SetListener(THIS^);
+_statemachine.SetLogger(_logger);
+
+// set initial state
+_statemachine.SetState(ZApplication.UnitStateMachineState.Boot);
+_statemachineIntrf := _statemachine;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStartTransitionFailed" Id="{12d96ce3-4cdc-439b-97ef-855ebbf641db}" FolderPath="StateMachineInterface\">
+      <Declaration><![CDATA[/// This method is called by a [Statemachine's startTransition method](xref:ZApplication.UnitStateMachine#startTransition)
+/// if a given transition was failed (e.g. the transition is not allowed according to the state diagram of the state machine).
+/// The State that was active previously in the StateMachine remains active and `requestedState` indicates which state transition
+/// was requested by the user.
+METHOD OnStartTransitionFailed
+VAR_INPUT
+  state : INT;  
+  requestedState : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStartTransitionSucceeded" Id="{5c0009c8-c717-4322-8c5f-0c5483ba60c4}" FolderPath="StateMachineInterface\">
+      <Declaration><![CDATA[/// This method is called by a [Statemachine's startTransition method](xref:ZApplication.UnitStateMachine#startTransition)
+/// if a given transition was successful. Please note, that at the time this event occurs, `state` still holds the
+/// state that was active before calling `startTransition`, there is still one more call to this `state` to allow it to 
+/// cleanup.
+METHOD OnStartTransitionSucceeded
+VAR_INPUT
+  state : INT;  
+  newState : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStateEntry" Id="{a215b381-7c96-462b-91fe-bbde5aba73e6}" FolderPath="StateMachineInterface\">
+      <Declaration><![CDATA[/// This method is called after a transition succeeded, right before the [start method of a sequence](xref:ZAux#start) is called.
+/// The parameter `state` indicates the State that is active in the statemachine.
+METHOD OnStateEntry
+VAR_INPUT
+  state : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStateError" Id="{c1fcffca-5382-45ce-8731-18698e62f854}" FolderPath="StateMachineInterface\">
+      <Declaration><![CDATA[/// This method is called after a sequence reported an error, but before the state machine starts its error handling.
+METHOD OnStateError
+VAR_INPUT
+  state : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStateExit" Id="{991607d1-42cb-4fc8-9453-352e9048c6ec}" FolderPath="StateMachineInterface\">
+      <Declaration><![CDATA[/// This method is called after a transition succeeded, right before the [stop method of a sequence](xref:ZAux#start) is called.
+/// The parameter `state` indicates the State that is active in the statemachine.
+METHOD OnStateExit
+VAR_INPUT
+  state : INT;  
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStateSuccess" Id="{47269976-801b-48e1-a58d-1989d93ae982}" FolderPath="StateMachineInterface\">
+      <Declaration><![CDATA[/// This method if a State has been executed successfully.
+/// The parameter `state` indicates the State that is active in the statemachine.
+METHOD OnStateSuccess
+VAR_INPUT
+  state : INT;    
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="TransportComRef" Id="{d170f55d-31b1-44a6-8479-6fd5e5594533}">
+    <Declaration><![CDATA[/// container for all communication data types that are used by the unit
+TYPE TransportComRef :
+STRUCT
+  Publish : REFERENCE TO TransportComPublish; 
+  Subscribe : REFERENCE TO TransportComSubscribe; 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="TransportSequenceStop" Id="{d9c682e7-474a-4a1c-8c3c-18fa003de899}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TransportSequenceStop EXTENDS TransportSequence IMPLEMENTS ZCore.ISequence
+VAR
+  _step : ZCore.Step(TransportStep.StopBegin, TransportStep.StopEnd);
+  _timerSim : ZAux.Timer;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF OnStart(_step) THEN
+  ; // init custom sequence variables here ...
+END_IF
+
+REPEAT
+  LogStep();
+
+  CASE _step.Index OF
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.StopBegin:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN
+        _timerSim.WaitAsync(5);
+			END_IF
+      
+      Await(_timerSim, nextStep:=TransportStep.StopEnd);
+      // _step.SetNext(index:=TransportStep.StopEnd);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.StopEnd:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)    
+      SetBusy(FALSE);
+  
+  ELSE
+    Abort('sequence contains unhandled step');
+  END_CASE
+UNTIL _step.IsNotRepeatable() OR_ELSE NOT Busy END_REPEAT]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

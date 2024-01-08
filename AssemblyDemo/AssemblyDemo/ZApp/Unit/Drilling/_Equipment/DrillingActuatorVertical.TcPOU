@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="DrillingActuatorVertical" Id="{eb570af9-9080-41f8-81d4-a1210ee34018}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK DrillingActuatorVertical EXTENDS ZEquipment.ActuatorDigitalBiLsPlusMinus]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="AufAsync" Id="{3efd8727-d9fd-423e-b6c3-bba8087507f6}">
+      <Declaration><![CDATA[METHOD PUBLIC AufAsync
+VAR_INPUT
+  startToken : ZCore.IStartToken;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[MovePlusAsync(startToken:=startToken);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Geschlossen" Id="{4c473d52-84a7-4e51-8dc4-09552c9cce3b}">
+      <Declaration><![CDATA[METHOD PUBLIC Geschlossen : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Geschlossen := IsAtMinus();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Offen" Id="{d0e43d0e-7883-4d4f-a1fb-faa4c0c21c14}">
+      <Declaration><![CDATA[METHOD PUBLIC Offen : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Offen := IsAtPlus();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ZuAsync" Id="{aad59b46-816a-4129-b948-f99a915de6a9}">
+      <Declaration><![CDATA[METHOD PUBLIC ZuAsync
+VAR_INPUT
+  startToken : ZCore.IStartToken;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[MoveMinusAsync(startToken:=startToken);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

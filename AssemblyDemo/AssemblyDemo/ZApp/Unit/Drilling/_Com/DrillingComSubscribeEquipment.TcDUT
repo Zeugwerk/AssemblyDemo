@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="DrillingComSubscribeEquipment" Id="{fe22a677-a5ca-410b-b4d1-2ca47919bdf8}">
+    <Declaration><![CDATA[TYPE DrillingComSubscribeEquipment :
+STRUCT
+
+{region "Vertical : ActuatorDigital"}
+  Vertical : ZApplication.ActuatorDigitalComSubscribe;
+  VerticalZu : ZApplication.DigitalComSubscribe;
+  VerticalAuf : ZApplication.DigitalComSubscribe;
+  VerticalGeschlossen : ZApplication.DigitalComSubscribe;
+  VerticalOffen : ZApplication.DigitalComSubscribe;
+  {attribute 'ZId' := '6edc2aeb-8e0c-4ef7-9533-2d3679311649'}
+{endregion}
+
+{attribute '__ZwPlcUnitComDeclaration__'} // Do not remove this attribute! It is used for code generation.
+
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

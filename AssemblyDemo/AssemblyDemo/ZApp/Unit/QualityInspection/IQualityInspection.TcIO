@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="IQualityInspection" Id="{8b9411ef-964d-42be-ae52-a1b9ecbc4f83}">
+    <Declaration><![CDATA[INTERFACE IQualityInspection EXTENDS ZApplication.IUnit
+]]></Declaration>
+  </Itf>
+</TcPlcObject>
