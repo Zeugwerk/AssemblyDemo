@@ -16,13 +16,29 @@ TYPE TransportStep :
   ,StopEnd
 
   ,AutomaticBegin
+  ,AutomaticInitializeMovements  
+  ,AutomaticMoveToLeftPos
+  ,AutomaticWaitSomeTime
+  ,AutomaticMoveVerticalDown
+  ,AutomaticCloseGripper
+  ,AutomaticMoveVerticalToTopPos  
+  ,AutomaticWaitSomeMoreTime
+  ,AutomaticMoveToRightPos
+  ,AutomaticCleanUp
+  ,AutomaticOpenGripper
+  ,AutomaticMoveToCamPos
+  ,AutomaticStartQualityInspection
   ,AutomaticEnd
   
   ,GoHomeBegin
   ,GoHomeStartHomingOfChilds
+  ,GoHomeVerticalUp
+  ,GoHomeHorizontalToRightPos
+  ,GoHomeUnlockQualityInspection
   ,GoHomeEnd 
   
   ,FaultReactionBegin
+  ,FaultReactionVerticalUp
   ,FaultReactionEnd
 );
 END_TYPE

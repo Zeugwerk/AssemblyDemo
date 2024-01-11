@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="QualityInspectionSequenceGoHome" Id="{188d8d50-51df-475b-a90d-4638a1ff4954}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK QualityInspectionSequenceGoHome EXTENDS QualityInspectionSequence IMPLEMENTS ZCore.ISequence
@@ -32,11 +32,12 @@ REPEAT
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
       IF _step.OnEntry()
       THEN
-        _timer.WaitAsync(2);
+        _io.EnableLight.Enable(FALSE);
+        _io.TriggerCam.Enable(FALSE);
+        _timer.WaitAsync(1.0);
 			END_IF
       
       Await(_timer, nextStep:=QualityInspectionStep.GoHomeEnd);
-      // _step.SetNext(index:=QualityInspectionStep.GoHomeEnd);
 
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
     QualityInspectionStep.GoHomeEnd:

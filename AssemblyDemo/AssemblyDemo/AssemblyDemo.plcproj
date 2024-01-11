@@ -375,6 +375,9 @@
     <Compile Include="ZApp\Unit\Transport\_Equipment\TransportActuator.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ZApp\Unit\Transport\_Equipment\TransportActuatorGripper.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ZApp\Unit\Transport\_Equipment\TransportAxis.TcPOU">
       <SubType>Code</SubType>
     </Compile>

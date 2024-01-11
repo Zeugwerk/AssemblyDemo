@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="TransportAxis" Id="{61046002-336c-418e-a24c-253f7da9b8da}" SpecialFunc="None">
     <Declaration><![CDATA[/// This function block is a container for all axis objects that are used by this unit.
@@ -11,6 +11,16 @@ VAR
 END_VAR
 VAR_INPUT
 
+{region "HorizontalX : AxisPlcOpenMc"}
+  HorizontalX : ZEquipment.AxisPlcOpenMc(_parent);
+  {attribute 'ZId' := 'b48886d3-effd-43af-8c1e-4c35e310bf5b'}
+{endregion}
+
+{region "VerticalZ : AxisPlcOpenMc"}
+  VerticalZ : ZEquipment.AxisPlcOpenMc(_parent);
+  {attribute 'ZId' := '82c3e667-8dc4-4ea4-a1fc-9c83583bfea0'}
+{endregion}
+
 {attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
 END_VAR
 ]]></Declaration>
@@ -22,8 +32,35 @@ END_IF
 
   _axisbridge.SetLogger(_parent._logger);
 
-{attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.]]>
+{region "HorizontalX : AxisPlcOpenMc"}
+  HorizontalX.SetLogger(_parent._logger);
+  HorizontalX.SetName(name:='HorizontalX');
+  HorizontalX.SetSimulation(_parent._data.Config.Simulated);
+  _axisbridge.AddAxisPlcOpenMc(axis:=HorizontalX, publish:=_parent._com.Publish.Equipment.HorizontalX, subscribe:=_parent._com.Subscribe.Equipment.HorizontalX);
 
-_isInitialized := TRUE;</ST></Implementation>
+  {region "UserInitCode"}
+  // put your individual init code for this Axis here
+  {endregion}
+
+  {attribute 'ZId' := 'b48886d3-effd-43af-8c1e-4c35e310bf5b'}
+{endregion}
+
+{region "VerticalZ : AxisPlcOpenMc"}
+  VerticalZ.SetLogger(_parent._logger);
+  VerticalZ.SetName(name:='VerticalZ');
+  VerticalZ.SetSimulation(_parent._data.Config.Simulated);
+  _axisbridge.AddAxisPlcOpenMc(axis:=VerticalZ, publish:=_parent._com.Publish.Equipment.VerticalZ, subscribe:=_parent._com.Subscribe.Equipment.VerticalZ);
+
+  {region "UserInitCode"}
+  // put your individual init code for this Axis here
+  {endregion}
+
+  {attribute 'ZId' := '82c3e667-8dc4-4ea4-a1fc-9c83583bfea0'}
+{endregion}
+
+{attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
+
+_isInitialized := TRUE;]]></ST>
+    </Implementation>
   </POU>
 </TcPlcObject>

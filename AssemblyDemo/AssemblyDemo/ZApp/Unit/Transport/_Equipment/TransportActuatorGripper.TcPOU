@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="TransportActuatorGripper" Id="{d0b6f853-c65d-477e-8967-40d5ae4bc598}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TransportActuatorGripper EXTENDS ZEquipment.ActuatorDigitalBiLsPlusMinus]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="CloseAsync" Id="{e9d276c1-1f6d-43ac-90c6-7d03811f9914}">
+      <Declaration><![CDATA[METHOD PUBLIC CloseAsync
+VAR_INPUT
+  startToken : ZCore.IStartToken;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[MoveMinusAsync(startToken:=startToken);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsClosed" Id="{b47c364c-42d5-49c7-ad2d-d40e4562feca}">
+      <Declaration><![CDATA[METHOD PUBLIC IsClosed : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsClosed := IsAtMinus();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsOpen" Id="{2150f9f5-3664-463d-897f-f6c2015e9768}">
+      <Declaration><![CDATA[METHOD PUBLIC IsOpen : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsOpen := IsAtPlus();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OpenAsync" Id="{a0bee3d9-076e-4b9b-9b2b-8e83df724b0e}">
+      <Declaration><![CDATA[METHOD PUBLIC OpenAsync
+VAR_INPUT
+  startToken : ZCore.IStartToken;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[MovePlusAsync(startToken:=startToken);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

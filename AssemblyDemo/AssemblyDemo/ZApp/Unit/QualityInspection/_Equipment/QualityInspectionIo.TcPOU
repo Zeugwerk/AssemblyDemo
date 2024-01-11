@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="QualityInspectionIo" Id="{af664e3b-49a1-445c-8db2-030d7f36557b}" SpecialFunc="None">
     <Declaration><![CDATA[/// This function block is a container for all I/Os that are used by this unit.
@@ -11,6 +11,21 @@ VAR
 END_VAR
 VAR_INPUT
 
+{region "TriggerCam : PulsedOutput"}
+  TriggerCam : ZEquipment.ImpulseOutput(_parent);
+  {attribute 'ZId' := 'c63d51c9-4589-40b4-ac78-45c3ff2f3b57'}
+{endregion}
+
+{region "EnableLight : DigitalOutput"}
+  EnableLight : ZEquipment.DigitalOutput;
+  {attribute 'ZId' := '57b0de1b-3452-4c6c-9481-eeca6b7d3a02'}
+{endregion}
+
+{region "CamOk : DigitalInput"}
+  CamOk : ZEquipment.DigitalInput;
+  {attribute 'ZId' := '27a646f9-ab74-4898-af0f-5400552173e7'}
+{endregion}
+
 {attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
 END_VAR
 ]]></Declaration>
@@ -22,8 +37,51 @@ END_IF
 
   _iobridge.SetLogger(_parent._logger);
 
-{attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.]]>
+{region "TriggerCam : PulsedOutput"}
+  TriggerCam.SetLogger(0);
+  TriggerCam.SetName('TriggerCam');
+  TriggerCam.SetSimulation(on:=_parent._data.Config.Simulated);
+  TriggerCam.SetLogic(ZEquipment.DigitalLogic.Normal);
+  _ioBridge.AddImpulseOutput(TriggerCam, publish := _parent._com.Publish.Equipment.TriggerCam, subscribe := _parent._com.Subscribe.Equipment.TriggerCam);
 
-_isInitialized := TRUE;</ST></Implementation>
+  {region "UserInitCode"}
+  // put your individual init code for this I/O here
+  {endregion}
+
+  {attribute 'ZId' := 'c63d51c9-4589-40b4-ac78-45c3ff2f3b57'}
+{endregion}
+
+{region "EnableLight : DigitalOutput"}
+  EnableLight.SetLogger(_parent._logger);
+  EnableLight.SetName('EnableLight');
+  EnableLight.SetSimulation(on:=_parent._data.Config.Simulated);
+  EnableLight.SetLogic(ZEquipment.DigitalLogic.Normal);
+  _ioBridge.AddDigitalOutput(EnableLight, publish := _parent._com.Publish.Equipment.EnableLight, subscribe := _parent._com.Subscribe.Equipment.EnableLight);
+
+  {region "UserInitCode"}
+  // put your individual init code for this I/O here
+  {endregion}
+
+  {attribute 'ZId' := '57b0de1b-3452-4c6c-9481-eeca6b7d3a02'}
+{endregion}
+
+{region "CamOk : DigitalInput"}
+  CamOk.SetLogger(_parent._logger);
+  CamOk.SetName('CamOk');
+  CamOk.SetSimulation(on:=_parent._data.Config.Simulated);
+  CamOk.SetLogic(ZEquipment.DigitalLogic.Normal);
+  _ioBridge.AddDigitalInput(CamOk, publish := _parent._com.Publish.Equipment.CamOk, subscribe := _parent._com.Subscribe.Equipment.CamOk);
+
+  {region "UserInitCode"}
+  // put your individual init code for this I/O here
+  {endregion}
+
+  {attribute 'ZId' := '27a646f9-ab74-4898-af0f-5400552173e7'}
+{endregion}
+
+{attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
+
+_isInitialized := TRUE;]]></ST>
+    </Implementation>
   </POU>
 </TcPlcObject>

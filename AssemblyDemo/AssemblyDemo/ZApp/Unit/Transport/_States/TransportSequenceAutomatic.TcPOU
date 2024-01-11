@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="TransportSequenceAutomatic" Id="{0b89d26f-a2b3-4a70-adbc-7daba263116c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TransportSequenceAutomatic EXTENDS TransportSequence IMPLEMENTS ZCore.ISequence
 VAR
   _step : ZCore.Step(TransportStep.AutomaticBegin, TransportStep.AutomaticEnd);
+  _timer : ZAux.Timer;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT Busy THEN
@@ -19,7 +20,7 @@ IF OnStop() THEN
 END_IF
 
 IF OnHalt() THEN
-  ; // Halting := TRUE; // Uncomment to acknowledge that the sequence is halting
+  Halting := TRUE;
 END_IF
 
 REPEAT
@@ -34,8 +35,157 @@ REPEAT
         ;
       END_IF
 
-      // Await(obj1:=, nextStep:=TransportStep.AutomaticEnd);
-      _step.SetNext(TransportStep.AutomaticEnd);
+      _step.SetNext(TransportStep.AutomaticInitializeMovements);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticInitializeMovements:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _timer.WaitAsync(1.2);
+        _logger.Info('Init Movements!');
+      END_IF
+      
+      Await(obj1:=_timer, nextStep:=TransportStep.AutomaticMoveToLeftPos);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticMoveToLeftPos:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _axis.HorizontalX.MoveAbsoluteAsync(startToken:=THIS^, position:=_data.Machine.HorizontalLeftPos, speed:=_data.Machine.Highspeed);
+      END_IF
+      
+      Await(obj1:=_axis.HorizontalX, nextStep:=TransportStep.AutomaticWaitSomeTime);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticWaitSomeTime:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN
+        Milestone('Standing on the left side, halt may occur');
+        
+        IF Halting 
+        THEN
+          _step.SetNext(TransportStep.AutomaticEnd);
+          RETURN;        
+        ELSE
+          _timer.WaitAsync(2.0);
+        END_IF  
+      END_IF
+      
+      Await(obj1:=_timer, nextStep:=TransportStep.AutomaticMoveVerticalDown);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticMoveVerticalDown:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _axis.VerticalZ.MoveAbsoluteAsync(startToken:=THIS^, position:=_data.Machine.VerticalBottomPos, speed:=_data.Machine.Highspeed);
+      END_IF
+      
+      Await(obj1:=_axis.VerticalZ, nextStep:=TransportStep.AutomaticCloseGripper);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticCloseGripper:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _actuator.Gripper.CloseAsync(startToken:=THIS^);
+      END_IF
+      
+      Await(obj1:=_actuator.Gripper, nextStep:=TransportStep.AutomaticMoveVerticalToTopPos);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticMoveVerticalToTopPos:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _axis.VerticalZ.MoveAbsoluteAsync(startToken:=THIS^, position:=_data.Machine.VerticalTopPos, speed:=_data.Machine.Highspeed);
+      END_IF
+      
+      Await(obj1:=_axis.VerticalZ, nextStep:=TransportStep.AutomaticWaitSomeMoreTime);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticWaitSomeMoreTime:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        Milestone('Standing on the top with closed gripper, halt may occur!');
+        
+        IF Halting 
+        THEN
+          _step.SetNext(TransportStep.AutomaticEnd);
+          RETURN;        
+        ELSE
+          _timer.WaitAsync(2.0);
+        END_IF  
+      END_IF
+      
+      Await(obj1:=_timer, nextStep:=TransportStep.AutomaticMoveToCamPos);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticMoveToCamPos:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _axis.HorizontalX.MoveAbsoluteAsync(startToken:=THIS^, position:=_data.Machine.HorizontalCamPos, speed:=_data.Machine.Highspeed);
+      END_IF
+      
+      Await(obj1:=_axis.HorizontalX, nextStep:=TransportStep.AutomaticStartQualityInspection);    
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticStartQualityInspection:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _unit.QualityInspection.RunAutomaticAsync(startToken:=THIS^, unit:=_parent);
+      END_IF
+      
+      IF _unit.QualityInspection.Error
+      THEN
+        Abort(_unit.QualityInspection.ErrorMessage());
+      ELSIF NOT _unit.QualityInspection.Busy
+      THEN
+        _unit.QualityInspection.Unlock(unit:=_parent);
+        _step.SetNext(TransportStep.AutomaticMoveToRightPos);
+			END_IF
+      
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticMoveToRightPos:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _axis.HorizontalX.MoveAbsoluteAsync(startToken:=THIS^, position:=_data.Machine.HorizontalRightPos, _data.Machine.Highspeed);
+      END_IF
+      
+      Await(obj1:=_axis.HorizontalX, nextStep:=TransportStep.AutomaticOpenGripper);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticOpenGripper:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _actuator.Gripper.OpenAsync(startToken:=THIS^);
+      END_IF
+      
+      IF Halting
+      THEN
+        Await(obj1:=_actuator.Gripper, nextStep:=TransportStep.AutomaticCleanUp);
+      ELSE
+        Await(obj1:=_actuator.Gripper, nextStep:=TransportStep.AutomaticInitializeMovements);
+      END_IF
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.AutomaticCleanUp:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _timer.WaitAsync(1.0);
+        _logger.Info('Waiting some time -> Halt occured');
+      END_IF
+      
+      Await(obj1:=_timer, nextStep:=TransportStep.AutomaticEnd);
     
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
     TransportStep.AutomaticEnd:

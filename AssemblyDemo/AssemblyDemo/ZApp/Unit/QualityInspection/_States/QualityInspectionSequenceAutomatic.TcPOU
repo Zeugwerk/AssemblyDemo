@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="QualityInspectionSequenceAutomatic" Id="{05c6a32c-1cb2-4aab-a4cc-ce8a269ff3ed}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK QualityInspectionSequenceAutomatic EXTENDS QualityInspectionSequence IMPLEMENTS ZCore.ISequence
 VAR
   _step : ZCore.Step(QualityInspectionStep.AutomaticBegin, QualityInspectionStep.AutomaticEnd);
+  _timer : ZAux.Timer;
+  _simTimer : ZAux.Timer;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT Busy THEN
@@ -31,11 +33,50 @@ REPEAT
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
       IF _step.OnEntry()
       THEN
-        ;
+        _timer.WaitAsync(1.0);
       END_IF
 
-      // Await(obj1:=, nextStep:=QualityInspectionStep.AutomaticEnd);
-      _step.SetNext(QualityInspectionStep.AutomaticEnd);
+      _step.SetNext(QualityInspectionStep.AutomaticEnableLight);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    QualityInspectionStep.AutomaticEnableLight:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _io.EnableLight.Enable(TRUE);
+      END_IF
+      
+      _step.SetNext(index:=QualityInspectionStep.AutomaticTriggerCam);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    QualityInspectionStep.AutomaticTriggerCam:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _io.TriggerCam.Duration := 0.5;
+        _io.TriggerCam.RunAsync(startToken:=THIS^);
+      END_IF
+      
+      Await(obj1:=_io.TriggerCam, nextStep:=QualityInspectionStep.AutomaticWaitTillCamSendsOk);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    QualityInspectionStep.AutomaticWaitTillCamSendsOk:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _simTimer.WaitAsync(1.5);
+      END_IF
+      
+      IF _simTimer.Done
+      THEN
+        _io.CamOk.Enable(TRUE);
+			END_IF
+      
+      IF _io.CamOk.RisingTrigger()
+      THEN
+        _io.CamOk.Enable(FALSE);
+        _step.SetNext(index:=QualityInspectionStep.AutomaticEnd);
+      END_IF
     
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
     QualityInspectionStep.AutomaticEnd:

@@ -71,6 +71,16 @@ UNTIL _step.IsNotRepeatable() OR_ELSE NOT Busy END_REPEAT]]></ST>
   ZGlobal.Data.Config.Transport.Simulated := TRUE;
   {region "UserInitCode"}
   // put your individual init code for this unit here
+  ZGlobal.Data.Machine.Transport.Highspeed := 10.0;
+  ZGlobal.Data.Machine.Transport.Slowspeed := 2.0;
+        
+  ZGlobal.Data.Machine.Transport.HorizontalLeftPos := 2.0;
+  ZGlobal.Data.Machine.Transport.HorizontalRightPos := 8.0;
+  ZGlobal.Data.Machine.Transport.HorizontalHomePos := 0.0;
+        
+  ZGlobal.Data.Machine.Transport.VerticalBottomPos := 5.0;
+  ZGlobal.Data.Machine.Transport.VerticalTopPos := 2.0;
+  ZGlobal.Data.Machine.Transport.VerticalHomePos := 0.0;
   {endregion}
   {END_IF}
   {attribute 'ZId' := '413070d6-61de-4759-aae5-e3ab76278fe1'}

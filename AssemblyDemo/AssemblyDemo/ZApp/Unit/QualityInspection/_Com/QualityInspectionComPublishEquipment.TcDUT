@@ -1,8 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <DUT Name="QualityInspectionComPublishEquipment" Id="{4e485945-c0cb-4430-907f-583986624c98}">
     <Declaration><![CDATA[TYPE QualityInspectionComPublishEquipment :
 STRUCT
+
+{region "TriggerCam : PulsedOutput"}
+  TriggerCam : ZApplication.ImpulseOutputComPublish;
+  {attribute 'ZId' := 'c63d51c9-4589-40b4-ac78-45c3ff2f3b57'}
+{endregion}
+
+{region "EnableLight : Digital"}
+  EnableLight : ZApplication.DigitalComPublish;
+  {attribute 'ZId' := '57b0de1b-3452-4c6c-9481-eeca6b7d3a02'}
+{endregion}
+
+{region "CamOk : Digital"}
+  CamOk : ZApplication.DigitalComPublish;
+  {attribute 'ZId' := '27a646f9-ab74-4898-af0f-5400552173e7'}
+{endregion}
 
 {attribute '__ZwPlcUnitComDeclaration__'} // Do not remove this attribute! It is used for code generation.
 

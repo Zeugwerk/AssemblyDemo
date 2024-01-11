@@ -1,8 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <DUT Name="TransportComPublishEquipment" Id="{4a2663d3-84e6-4839-8d99-897a785ac663}">
     <Declaration><![CDATA[TYPE TransportComPublishEquipment :
 STRUCT
+
+{region "HorizontalX : Axis"}
+  HorizontalX : ZApplication.AxisComPublish;
+  {attribute 'ZId' := 'b48886d3-effd-43af-8c1e-4c35e310bf5b'}
+{endregion}
+
+{region "VerticalZ : Axis"}
+  VerticalZ : ZApplication.AxisComPublish;
+  {attribute 'ZId' := '82c3e667-8dc4-4ea4-a1fc-9c83583bfea0'}
+{endregion}
+
+{region "Gripper : ActuatorDigital"}
+  Gripper : ZApplication.ActuatorDigitalComPublish;
+  GripperClose : ZApplication.DigitalComPublish;
+  GripperOpen : ZApplication.DigitalComPublish;
+  GripperIsClosed : ZApplication.DigitalComPublish;
+  GripperIsOpen : ZApplication.DigitalComPublish;
+  {attribute 'ZId' := '5d1fe583-4573-4e37-9380-49c474c02543'}
+{endregion}
 
 {attribute '__ZwPlcUnitComDeclaration__'} // Do not remove this attribute! It is used for code generation.
 

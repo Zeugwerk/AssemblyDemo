@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="TransportSequenceStop" Id="{d9c682e7-474a-4a1c-8c3c-18fa003de899}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TransportSequenceStop EXTENDS TransportSequence IMPLEMENTS ZCore.ISequence
@@ -20,11 +20,11 @@ REPEAT
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
       IF _step.OnEntry()
       THEN
-        _timerSim.WaitAsync(5);
+        _axis.HorizontalX.StopAsync(startToken:=THIS^);
+        _axis.VerticalZ.StopAsync(startToken:=THIS^);
 			END_IF
       
-      Await(_timerSim, nextStep:=TransportStep.StopEnd);
-      // _step.SetNext(index:=TransportStep.StopEnd);
+      Await2(obj1:=_axis.HorizontalX, obj2:=_axis.VerticalZ, nextStep:=TransportStep.StopEnd);
 
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
     TransportStep.StopEnd:

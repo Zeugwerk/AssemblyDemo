@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="TransportActuator" Id="{8ff30396-b6cf-4e0d-b9d8-c77798d00a26}" SpecialFunc="None">
     <Declaration><![CDATA[/// This function block is a container for all actuator objects that are used by this unit.
@@ -13,6 +13,11 @@ VAR
 END_VAR
 VAR_INPUT
 
+{region "Gripper : ActuatorDigitalBiLsPlusMinus"}
+  Gripper : TransportActuatorGripper(_parent);
+  {attribute 'ZId' := '5d1fe583-4573-4e37-9380-49c474c02543'}
+{endregion}
+
 {attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
 END_VAR
 ]]></Declaration>
@@ -24,8 +29,30 @@ END_IF
 
   _actuatorbridge.SetLogger(_parent._logger);
 
-{attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.]]>
+{region "Gripper : ActuatorDigitalBiLsPlusMinus"}
+  Gripper.SetLogger(_parent._logger);
+  Gripper.SetName(name:='Gripper', movePlusName:='Open', moveMinusName:='Close', plusName:='IsOpen', minusName:='IsClosed');
+  Gripper.SetSimulation(SEL(_parent._data.Config.Simulated, ActuatorDigitalSimulation.Disabled, ZEquipment.ActuatorDigitalSimulation.Automatic));
+  Gripper.SetSimulationUncertainty(uncertainty:=10);
+  Gripper.SetDelay(plusStartDuration:=0, plusEndDuration:=0, minusStartDuration:=0, minusEndDuration:=0, stop:=0);
+  Gripper.SetSwitchDuration(plusDuration:=0.2, minusDuration:=0.2);
+  Gripper.SetMovementDuration(plusDuration:=3, minusDuration:=3);
+  Gripper.SetTimeout(plusDuration:=5, minusDuration:=5);
+  _actuatorbridge.AddActuatorDigital(Gripper, publish := _parent._com.Publish.Equipment.Gripper, subscribe := _parent._com.Subscribe.Equipment.Gripper);
+  _iobridge.AddDigitalOutput(Gripper.MinusOutput, publish := _parent._com.Publish.Equipment.GripperClose, subscribe := _parent._com.Subscribe.Equipment.GripperClose);
+  _iobridge.AddDigitalOutput(Gripper.PlusOutput, publish := _parent._com.Publish.Equipment.GripperOpen, subscribe := _parent._com.Subscribe.Equipment.GripperOpen);
+  _iobridge.AddDigitalInput(Gripper.MinusInput, publish := _parent._com.Publish.Equipment.GripperIsClosed, subscribe := _parent._com.Subscribe.Equipment.GripperIsClosed);
+  _iobridge.AddDigitalInput(Gripper.PlusInput, publish := _parent._com.Publish.Equipment.GripperIsOpen, subscribe := _parent._com.Subscribe.Equipment.GripperIsOpen);
+  {region "UserInitCode"}
+  // put your individual init code for this Actuator here
+  {endregion}
 
-_isInitialized := TRUE;</ST></Implementation>
+  {attribute 'ZId' := '5d1fe583-4573-4e37-9380-49c474c02543'}
+{endregion}
+
+{attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
+
+_isInitialized := TRUE;]]></ST>
+    </Implementation>
   </POU>
 </TcPlcObject>

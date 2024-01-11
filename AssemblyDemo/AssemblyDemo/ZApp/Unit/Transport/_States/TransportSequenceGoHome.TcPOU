@@ -35,8 +35,33 @@ REPEAT
         _timer.WaitAsync(2);
 			END_IF
       
-      Await(_timer, nextStep:=TransportStep.GoHomeStartHomingOfChilds);
-      // _step.SetNext(index:=TransportStep.GoHomeEnd);
+      Await(_timer, nextStep:=TransportStep.GoHomeVerticalUp);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.GoHomeVerticalUp:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _axis.VerticalZ.MoveAbsoluteAsync(startToken:=THIS^, position:=_data.Machine.VerticalHomePos, speed:=_data.Machine.Slowspeed);
+      END_IF
+      
+      Await(obj1:=_axis.VerticalZ, nextStep:=TransportStep.GoHomeHorizontalToRightPos);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.GoHomeHorizontalToRightPos:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _axis.HorizontalX.MoveAbsoluteAsync(startToken:=THIS^, position:=_data.Machine.HorizontalHomePos, speed:=_data.Machine.Slowspeed);
+      END_IF
+      
+      Await(obj1:=_axis.HorizontalX, nextStep:=TransportStep.GoHomeUnlockQualityInspection);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.GoHomeUnlockQualityInspection:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      _unit.QualityInspection.Unlock(unit:=_parent);
+      _step.SetNext(index:=TransportStep.GoHomeStartHomingOfChilds);
 
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
     TransportStep.GoHomeStartHomingOfChilds:

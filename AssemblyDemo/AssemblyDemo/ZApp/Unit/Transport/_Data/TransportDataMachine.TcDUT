@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <DUT Name="TransportDataMachine" Id="{5251dc85-e4dd-4ca5-ba34-b261f608e96f}">
     <Declaration><![CDATA[/// machine data that is used through most sequences of the unit (motor speed, axes positions, ...)
@@ -6,6 +6,15 @@ TYPE TransportDataMachine :
 STRUCT
   Slowspeed : LREAL;
   Highspeed : LREAL;
+  
+  HorizontalLeftPos : LREAL;
+  HorizontalRightPos : LREAL;
+  HorizontalCamPos : LREAL;
+  HorizontalHomePos : LREAL;
+  
+  VerticalTopPos : LREAL;
+  VerticalBottomPos : LREAL;
+  VerticalHomePos : LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

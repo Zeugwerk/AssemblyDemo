@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="TransportSequenceFaultReaction" Id="{f6d1f354-156c-4133-b9e8-363e7cb3361b}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TransportSequenceFaultReaction EXTENDS TransportSequence IMPLEMENTS ZCore.ISequence
@@ -20,11 +20,21 @@ REPEAT
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
       IF _step.OnEntry()
       THEN
-        _timerSim.WaitAsync(5);
+        _axis.HorizontalX.StopAsync(startToken:=THIS^);
+        _axis.VerticalZ.StopAsync(startToken:=THIS^);
 			END_IF
       
-      Await(_timerSim, nextStep:=TransportStep.FaultReactionEnd);
-      // _step.SetNext(index:=TransportStep.FaultReactionEnd);
+      Await2(obj1:=_axis.HorizontalX, obj2:=_axis.VerticalZ, nextStep:=TransportStep.FaultReactionVerticalUp);
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    TransportStep.FaultReactionVerticalUp:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        _axis.VerticalZ.MoveAbsoluteAsync(startToken:=THIS^, position:=_data.Machine.VerticalTopPos, speed:=_data.Machine.Slowspeed);
+      END_IF
+      
+      Await(obj1:=_axis.VerticalZ, nextStep:=TransportStep.FaultReactionEnd);
 
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
     TransportStep.FaultReactionEnd:

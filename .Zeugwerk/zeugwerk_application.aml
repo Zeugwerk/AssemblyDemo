@@ -34,7 +34,395 @@
               <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
             </InternalElement>
           </InternalElement>
-          <InternalElement Name="Equipment" ID="83da1655-ab6f-4d09-b822-7d0b02b3c489" />
+          <InternalElement Name="Equipment" ID="83da1655-ab6f-4d09-b822-7d0b02b3c489">
+            <InternalElement Name="CamOk" ID="27a646f9-ab74-4898-af0f-5400552173e7" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentIo">
+              <Attribute Name="DisplayName" AttributeDataType="xs:string">
+                <Value>CamOk</Value>
+              </Attribute>
+              <Attribute Name="Logger" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                <Value>ZObjectLib/Common/Logger</Value>
+              </Attribute>
+              <Attribute Name="Simulated" AttributeDataType="xs:string">
+                <Value>Indeterminate</Value>
+              </Attribute>
+              <Attribute Name="SetLogger" AttributeDataType="xs:boolean">
+                <Description>Shall the Unit Logger be added to the I/O.</Description>
+                <DefaultValue>true</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="Type" AttributeDataType="xs:string">
+                <Description>PLC Type of the I/O</Description>
+                <Value>DigitalInput</Value>
+              </Attribute>
+              <Attribute Name="IoTest" AttributeDataType="xs:boolean">
+                <Description>Should the IO be added to the iobridge for I/O Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="DigitalIo" AttributeDataType="xs:string">
+                <Attribute Name="Logic" AttributeDataType="xs:string">
+                  <DefaultValue>Normal</DefaultValue>
+                  <Value>Normal</Value>
+                  <Constraint Name="AllowedValues">
+                    <NominalScaledType>
+                      <RequiredValue>Normal</RequiredValue>
+                      <RequiredValue>Inverted</RequiredValue>
+                    </NominalScaledType>
+                  </Constraint>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="DebouncedInput" AttributeDataType="xs:string">
+                <Attribute Name="EnabledDebouncingTime" AttributeDataType="xs:double" Unit="s">
+                  <Value>0.1</Value>
+                </Attribute>
+                <Attribute Name="DisabledDebouncingTime" AttributeDataType="xs:double" Unit="s">
+                  <Value>0.1</Value>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="AnalogIo" AttributeDataType="xs:string">
+                <Attribute Name="DataType" AttributeDataType="xs:string">
+                  <Value>Int</Value>
+                </Attribute>
+                <Attribute Name="Slope" AttributeDataType="xs:double">
+                  <Description>Slope for conversion from physical to electrical</Description>
+                  <Value>6.4</Value>
+                </Attribute>
+                <Attribute Name="Intercept" AttributeDataType="xs:double">
+                  <Description>Offset for conversion from physical to electrical</Description>
+                  <Value>-0.4</Value>
+                </Attribute>
+                <Attribute Name="Resolution" AttributeDataType="xs:string" Unit="Bit">
+                  <Value>16</Value>
+                </Attribute>
+                <Attribute Name="TerminalMin" AttributeDataType="xs:double">
+                  <Value>4</Value>
+                </Attribute>
+                <Attribute Name="TerminalMax" AttributeDataType="xs:double">
+                  <Value>20</Value>
+                </Attribute>
+                <Attribute Name="TerminalUnit" AttributeDataType="xs:string">
+                  <Value>mA</Value>
+                </Attribute>
+                <Attribute Name="ElecMin" AttributeDataType="xs:double">
+                  <Value>10</Value>
+                </Attribute>
+                <Attribute Name="ElecMax" AttributeDataType="xs:double">
+                  <Value>20</Value>
+                </Attribute>
+                <Attribute Name="PhysMin" AttributeDataType="xs:double">
+                  <Value>2</Value>
+                </Attribute>
+                <Attribute Name="PhysMax" AttributeDataType="xs:double">
+                  <Value>6</Value>
+                </Attribute>
+                <Attribute Name="PhysUnit" AttributeDataType="xs:string">
+                  <Value>bar</Value>
+                </Attribute>
+                <Attribute Name="DecimalPlaces" AttributeDataType="xs:int">
+                  <Value>1</Value>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="OnOffController" AttributeDataType="xs:double">
+                <Attribute Name="Output" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'OnOffController.Output'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentIo</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>DigitalOutput</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="Feedback" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'OnOffController.Feedback'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentIo</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>AnalogInput</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="SwitchOffAt" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+                <Attribute Name="SwitchOnAt" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+                <Attribute Name="SettlingDuration" AttributeDataType="xs:double" Unit="s">
+                  <Value>30</Value>
+                </Attribute>
+                <Attribute Name="MaxSettlingDuration" AttributeDataType="xs:double" Unit="s">
+                  <Value>120</Value>
+                </Attribute>
+                <Attribute Name="FeedbackTolerance" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZEquipment" />
+            </InternalElement>
+            <InternalElement Name="EnableLight" ID="57b0de1b-3452-4c6c-9481-eeca6b7d3a02" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentIo">
+              <Attribute Name="DisplayName" AttributeDataType="xs:string">
+                <Value>EnableLight</Value>
+              </Attribute>
+              <Attribute Name="Logger" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                <Value>ZObjectLib/Common/Logger</Value>
+              </Attribute>
+              <Attribute Name="Simulated" AttributeDataType="xs:string">
+                <Value>Indeterminate</Value>
+              </Attribute>
+              <Attribute Name="SetLogger" AttributeDataType="xs:boolean">
+                <Description>Shall the Unit Logger be added to the I/O.</Description>
+                <DefaultValue>true</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="Type" AttributeDataType="xs:string">
+                <Description>PLC Type of the I/O</Description>
+                <Value>DigitalOutput</Value>
+              </Attribute>
+              <Attribute Name="IoTest" AttributeDataType="xs:boolean">
+                <Description>Should the IO be added to the iobridge for I/O Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="DigitalIo" AttributeDataType="xs:string">
+                <Attribute Name="Logic" AttributeDataType="xs:string">
+                  <DefaultValue>Normal</DefaultValue>
+                  <Value>Normal</Value>
+                  <Constraint Name="AllowedValues">
+                    <NominalScaledType>
+                      <RequiredValue>Normal</RequiredValue>
+                      <RequiredValue>Inverted</RequiredValue>
+                    </NominalScaledType>
+                  </Constraint>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="DebouncedInput" AttributeDataType="xs:string">
+                <Attribute Name="EnabledDebouncingTime" AttributeDataType="xs:double" Unit="s">
+                  <Value>0.1</Value>
+                </Attribute>
+                <Attribute Name="DisabledDebouncingTime" AttributeDataType="xs:double" Unit="s">
+                  <Value>0.1</Value>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="AnalogIo" AttributeDataType="xs:string">
+                <Attribute Name="DataType" AttributeDataType="xs:string">
+                  <Value>Int</Value>
+                </Attribute>
+                <Attribute Name="Slope" AttributeDataType="xs:double">
+                  <Description>Slope for conversion from physical to electrical</Description>
+                  <Value>6.4</Value>
+                </Attribute>
+                <Attribute Name="Intercept" AttributeDataType="xs:double">
+                  <Description>Offset for conversion from physical to electrical</Description>
+                  <Value>-0.4</Value>
+                </Attribute>
+                <Attribute Name="Resolution" AttributeDataType="xs:string" Unit="Bit">
+                  <Value>16</Value>
+                </Attribute>
+                <Attribute Name="TerminalMin" AttributeDataType="xs:double">
+                  <Value>4</Value>
+                </Attribute>
+                <Attribute Name="TerminalMax" AttributeDataType="xs:double">
+                  <Value>20</Value>
+                </Attribute>
+                <Attribute Name="TerminalUnit" AttributeDataType="xs:string">
+                  <Value>mA</Value>
+                </Attribute>
+                <Attribute Name="ElecMin" AttributeDataType="xs:double">
+                  <Value>10</Value>
+                </Attribute>
+                <Attribute Name="ElecMax" AttributeDataType="xs:double">
+                  <Value>20</Value>
+                </Attribute>
+                <Attribute Name="PhysMin" AttributeDataType="xs:double">
+                  <Value>2</Value>
+                </Attribute>
+                <Attribute Name="PhysMax" AttributeDataType="xs:double">
+                  <Value>6</Value>
+                </Attribute>
+                <Attribute Name="PhysUnit" AttributeDataType="xs:string">
+                  <Value>bar</Value>
+                </Attribute>
+                <Attribute Name="DecimalPlaces" AttributeDataType="xs:int">
+                  <Value>1</Value>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="OnOffController" AttributeDataType="xs:double">
+                <Attribute Name="Output" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'OnOffController.Output'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentIo</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>DigitalOutput</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="Feedback" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'OnOffController.Feedback'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentIo</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>AnalogInput</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="SwitchOffAt" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+                <Attribute Name="SwitchOnAt" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+                <Attribute Name="SettlingDuration" AttributeDataType="xs:double" Unit="s">
+                  <Value>30</Value>
+                </Attribute>
+                <Attribute Name="MaxSettlingDuration" AttributeDataType="xs:double" Unit="s">
+                  <Value>120</Value>
+                </Attribute>
+                <Attribute Name="FeedbackTolerance" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZEquipment" />
+            </InternalElement>
+            <InternalElement Name="TriggerCam" ID="c63d51c9-4589-40b4-ac78-45c3ff2f3b57" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentIo">
+              <Attribute Name="DisplayName" AttributeDataType="xs:string">
+                <Value>TriggerCam</Value>
+              </Attribute>
+              <Attribute Name="Logger" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                <Value>ZObjectLib/Common/Logger</Value>
+              </Attribute>
+              <Attribute Name="Simulated" AttributeDataType="xs:string">
+                <Value>Indeterminate</Value>
+              </Attribute>
+              <Attribute Name="SetLogger" AttributeDataType="xs:boolean">
+                <Description>Shall the Unit Logger be added to the I/O.</Description>
+                <DefaultValue>true</DefaultValue>
+                <Value>False</Value>
+              </Attribute>
+              <Attribute Name="Type" AttributeDataType="xs:string">
+                <Description>PLC Type of the I/O</Description>
+                <Value>PulsedOutput</Value>
+              </Attribute>
+              <Attribute Name="IoTest" AttributeDataType="xs:boolean">
+                <Description>Should the IO be added to the iobridge for I/O Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="DigitalIo" AttributeDataType="xs:string">
+                <Attribute Name="Logic" AttributeDataType="xs:string">
+                  <DefaultValue>Normal</DefaultValue>
+                  <Value>Normal</Value>
+                  <Constraint Name="AllowedValues">
+                    <NominalScaledType>
+                      <RequiredValue>Normal</RequiredValue>
+                      <RequiredValue>Inverted</RequiredValue>
+                    </NominalScaledType>
+                  </Constraint>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="DebouncedInput" AttributeDataType="xs:string">
+                <Attribute Name="EnabledDebouncingTime" AttributeDataType="xs:double" Unit="s">
+                  <Value>0.1</Value>
+                </Attribute>
+                <Attribute Name="DisabledDebouncingTime" AttributeDataType="xs:double" Unit="s">
+                  <Value>0.1</Value>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="AnalogIo" AttributeDataType="xs:string">
+                <Attribute Name="DataType" AttributeDataType="xs:string">
+                  <Value>Int</Value>
+                </Attribute>
+                <Attribute Name="Slope" AttributeDataType="xs:double">
+                  <Description>Slope for conversion from physical to electrical</Description>
+                  <Value>6.4</Value>
+                </Attribute>
+                <Attribute Name="Intercept" AttributeDataType="xs:double">
+                  <Description>Offset for conversion from physical to electrical</Description>
+                  <Value>-0.4</Value>
+                </Attribute>
+                <Attribute Name="Resolution" AttributeDataType="xs:string" Unit="Bit">
+                  <Value>16</Value>
+                </Attribute>
+                <Attribute Name="TerminalMin" AttributeDataType="xs:double">
+                  <Value>4</Value>
+                </Attribute>
+                <Attribute Name="TerminalMax" AttributeDataType="xs:double">
+                  <Value>20</Value>
+                </Attribute>
+                <Attribute Name="TerminalUnit" AttributeDataType="xs:string">
+                  <Value>mA</Value>
+                </Attribute>
+                <Attribute Name="ElecMin" AttributeDataType="xs:double">
+                  <Value>10</Value>
+                </Attribute>
+                <Attribute Name="ElecMax" AttributeDataType="xs:double">
+                  <Value>20</Value>
+                </Attribute>
+                <Attribute Name="PhysMin" AttributeDataType="xs:double">
+                  <Value>2</Value>
+                </Attribute>
+                <Attribute Name="PhysMax" AttributeDataType="xs:double">
+                  <Value>6</Value>
+                </Attribute>
+                <Attribute Name="PhysUnit" AttributeDataType="xs:string">
+                  <Value>bar</Value>
+                </Attribute>
+                <Attribute Name="DecimalPlaces" AttributeDataType="xs:int">
+                  <Value>1</Value>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="OnOffController" AttributeDataType="xs:double">
+                <Attribute Name="Output" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'OnOffController.Output'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentIo</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>DigitalOutput</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="Feedback" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'OnOffController.Feedback'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentIo</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>AnalogInput</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="SwitchOffAt" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+                <Attribute Name="SwitchOnAt" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+                <Attribute Name="SettlingDuration" AttributeDataType="xs:double" Unit="s">
+                  <Value>30</Value>
+                </Attribute>
+                <Attribute Name="MaxSettlingDuration" AttributeDataType="xs:double" Unit="s">
+                  <Value>120</Value>
+                </Attribute>
+                <Attribute Name="FeedbackTolerance" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZEquipment" />
+            </InternalElement>
+          </InternalElement>
           <RoleRequirements RefBaseRoleClassPath="AutomationMLExtendedRoleClassLib/Unit" />
         </InternalElement>
         <InternalElement Name="Assembly" ID="23221439-50f6-4bf8-9080-f9c9a764eb63" RefBaseSystemUnitPath="ZObjectLib/Unit/ZUnit">
@@ -362,7 +750,195 @@
               <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
             </InternalElement>
           </InternalElement>
-          <InternalElement Name="Equipment" ID="4afcba14-4374-4483-a461-2976f852c1b9" />
+          <InternalElement Name="Equipment" ID="4afcba14-4374-4483-a461-2976f852c1b9">
+            <InternalElement Name="Gripper" ID="5d1fe583-4573-4e37-9380-49c474c02543" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentActuator">
+              <Attribute Name="DisplayName" AttributeDataType="xs:string">
+                <Value>Gripper</Value>
+              </Attribute>
+              <Attribute Name="Logger" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                <Value>ZObjectLib/Common/Logger</Value>
+              </Attribute>
+              <Attribute Name="Simulated" AttributeDataType="xs:string">
+                <Value>Indeterminate</Value>
+              </Attribute>
+              <Attribute Name="SetLogger" AttributeDataType="xs:boolean">
+                <Description>Shall the Unit Logger be added to the I/O.</Description>
+                <DefaultValue>true</DefaultValue>
+              </Attribute>
+              <Attribute Name="Type" AttributeDataType="xs:string">
+                <Description>PLC Type of the Actuator</Description>
+                <Value>ActuatorDigitalBiLsPlusMinus</Value>
+              </Attribute>
+              <Attribute Name="ActuatorTest" AttributeDataType="xs:boolean">
+                <Description>Should the Actuator be added to the acutatorbridge for Actuator Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="IoTest" AttributeDataType="xs:boolean">
+                <Description>Should the IO of the actuator be added to the iobridge for I/O Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="ActuatorDigital" AttributeDataType="xs:string">
+                <Attribute Name="MovePlusName" AttributeDataType="xs:string">
+                  <Value>Open</Value>
+                </Attribute>
+                <Attribute Name="MoveMinusName" AttributeDataType="xs:string">
+                  <Value>Close</Value>
+                </Attribute>
+                <Attribute Name="PlusName" AttributeDataType="xs:string">
+                  <Value>IsOpen</Value>
+                </Attribute>
+                <Attribute Name="MinusName" AttributeDataType="xs:string">
+                  <Value>IsClosed</Value>
+                </Attribute>
+                <Attribute Name="Plus" AttributeDataType="xs:string">
+                  <Description>Parameters for the Plus Position of the actuator</Description>
+                  <Attribute Name="StartDelay" AttributeDataType="xs:double">
+                    <Description>Delay before a move is started</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Switch" AttributeDataType="xs:double">
+                    <Description>Time the output remains enabled during a move</Description>
+                    <Value>0.2</Value>
+                  </Attribute>
+                  <Attribute Name="Timeout" AttributeDataType="xs:double">
+                    <Description>Maximum time a move can take</Description>
+                    <Value>5</Value>
+                  </Attribute>
+                  <Attribute Name="EndDelay" AttributeDataType="xs:double">
+                    <Description>Delay after a move before it ends</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Stop" AttributeDataType="xs:double">
+                    <Description>Delay after a stop has been triggered</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Simulation" AttributeDataType="xs:double">
+                    <Description>Simulated move duration</Description>
+                    <Value>3</Value>
+                  </Attribute>
+                  <Attribute Name="SimulationUncertainty" AttributeDataType="xs:double">
+                    <Description>Random range of simulation time in percent</Description>
+                    <Value>10</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="Minus" AttributeDataType="xs:string">
+                  <Description>Parameters for the Minus Position of the actuator</Description>
+                  <Attribute Name="StartDelay" AttributeDataType="xs:double">
+                    <Description>Delay before a move is started</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Switch" AttributeDataType="xs:double">
+                    <Description>Time the output remains enabled during a move</Description>
+                    <Value>0.2</Value>
+                  </Attribute>
+                  <Attribute Name="Timeout" AttributeDataType="xs:double">
+                    <Description>Maximum time a move can take</Description>
+                    <Value>5</Value>
+                  </Attribute>
+                  <Attribute Name="EndDelay" AttributeDataType="xs:double">
+                    <Description>Delay after a move before it ends</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Stop" AttributeDataType="xs:double">
+                    <Description>Delay after a stop has been triggered</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Simulation" AttributeDataType="xs:double">
+                    <Description>Simulated move duration</Description>
+                    <Value>3</Value>
+                  </Attribute>
+                  <Attribute Name="SimulationUncertainty" AttributeDataType="xs:double">
+                    <Description>Random range of simulation time in percent</Description>
+                    <Value>10</Value>
+                  </Attribute>
+                </Attribute>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZEquipment" />
+            </InternalElement>
+            <InternalElement Name="VerticalZ" ID="82c3e667-8dc4-4ea4-a1fc-9c83583bfea0" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentAxis">
+              <Attribute Name="DisplayName" AttributeDataType="xs:string">
+                <Value>VerticalZ</Value>
+              </Attribute>
+              <Attribute Name="Logger" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                <Value>ZObjectLib/Common/Logger</Value>
+              </Attribute>
+              <Attribute Name="Simulated" AttributeDataType="xs:string">
+                <Value>Indeterminate</Value>
+              </Attribute>
+              <Attribute Name="SetLogger" AttributeDataType="xs:boolean">
+                <Description>Shall the Unit Logger be added to the I/O.</Description>
+                <DefaultValue>true</DefaultValue>
+              </Attribute>
+              <Attribute Name="Type" AttributeDataType="xs:string">
+                <Description>PLC Type of the Axis</Description>
+                <Value>AxisPlcOpenMc</Value>
+              </Attribute>
+              <Attribute Name="AxisTest" AttributeDataType="xs:boolean">
+                <Description>Should the Axis be added to the axisbridge for Axis Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="AxisPlcOpenMc" AttributeDataType="xs:string" />
+              <Attribute Name="AxisStepperEL7031" AttributeDataType="xs:string">
+                <Attribute Name="EthercatSlave" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'AxisStepperEL7031.EthercatSlave'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentFieldbusDevice</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>EthercatSlave</Value>
+                  </Attribute>
+                </Attribute>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZEquipment" />
+            </InternalElement>
+            <InternalElement Name="HorizontalX" ID="b48886d3-effd-43af-8c1e-4c35e310bf5b" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentAxis">
+              <Attribute Name="DisplayName" AttributeDataType="xs:string">
+                <Value>HorizontalX</Value>
+              </Attribute>
+              <Attribute Name="Logger" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                <Value>ZObjectLib/Common/Logger</Value>
+              </Attribute>
+              <Attribute Name="Simulated" AttributeDataType="xs:string">
+                <Value>Indeterminate</Value>
+              </Attribute>
+              <Attribute Name="SetLogger" AttributeDataType="xs:boolean">
+                <Description>Shall the Unit Logger be added to the I/O.</Description>
+                <DefaultValue>true</DefaultValue>
+              </Attribute>
+              <Attribute Name="Type" AttributeDataType="xs:string">
+                <Description>PLC Type of the Axis</Description>
+                <Value>AxisPlcOpenMc</Value>
+              </Attribute>
+              <Attribute Name="AxisTest" AttributeDataType="xs:boolean">
+                <Description>Should the Axis be added to the axisbridge for Axis Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="AxisPlcOpenMc" AttributeDataType="xs:string" />
+              <Attribute Name="AxisStepperEL7031" AttributeDataType="xs:string">
+                <Attribute Name="EthercatSlave" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'AxisStepperEL7031.EthercatSlave'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentFieldbusDevice</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>EthercatSlave</Value>
+                  </Attribute>
+                </Attribute>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZEquipment" />
+            </InternalElement>
+          </InternalElement>
           <RoleRequirements RefBaseRoleClassPath="AutomationMLExtendedRoleClassLib/Unit" />
         </InternalElement>
         <RoleRequirements RefBaseRoleClassPath="AutomationMLCSRoleClassLib/ControlEquipment/Controller/PLC" />
