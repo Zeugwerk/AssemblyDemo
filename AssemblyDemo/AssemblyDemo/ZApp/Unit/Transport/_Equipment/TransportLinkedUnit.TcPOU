@@ -5,9 +5,9 @@
 /// Linked units can be addressed through their individual interface.
 FUNCTION_BLOCK TransportLinkedUnit EXTENDS TransportContainer
 VAR_INPUT
-  Assembly : IAssembly := ZModuleProgram.Assembly;
-  Drilling : IDrilling := ZModuleProgram.Drilling;
-  QualityInspection : IQualityInspection := ZModuleProgram.QualityInspection;
+  Assembly : IAssembly;
+  Drilling : IDrilling;
+  QualityInspection : IQualityInspection;
 {attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
 END_VAR
 ]]></Declaration>
@@ -16,6 +16,10 @@ END_VAR
 THEN
   RETURN;
 END_IF
+
+Assembly := ZModuleProgram.Assembly;
+Drilling := ZModuleProgram.Drilling;
+QualityInspection := ZModuleProgram.QualityInspection;
 
 {attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
 
