@@ -471,40 +471,40 @@
       <Namespace>Tc3_Module</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="ZApplication">
-      <DefaultResolution>ZApplication, 1.4.0.10 (Zeugwerk GmbH)</DefaultResolution>
+      <DefaultResolution>ZApplication, 1.4.0.13 (Zeugwerk GmbH)</DefaultResolution>
       <Namespace>ZApplication</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="ZAux">
-      <DefaultResolution>ZAux, 1.4.0.10 (Zeugwerk GmbH)</DefaultResolution>
+      <DefaultResolution>ZAux, 1.4.0.13 (Zeugwerk GmbH)</DefaultResolution>
       <Namespace>ZAux</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="ZCore">
-      <DefaultResolution>ZCore, 1.4.0.10 (Zeugwerk GmbH)</DefaultResolution>
+      <DefaultResolution>ZCore, 1.4.0.13 (Zeugwerk GmbH)</DefaultResolution>
     </PlaceholderReference>
     <PlaceholderReference Include="ZEquipment">
-      <DefaultResolution>ZEquipment, 1.4.0.10 (Zeugwerk GmbH)</DefaultResolution>
+      <DefaultResolution>ZEquipment, 1.4.0.13 (Zeugwerk GmbH)</DefaultResolution>
       <Namespace>ZEquipment</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="ZPlatform">
-      <DefaultResolution>ZPlatform, 1.4.0.10 (Zeugwerk GmbH)</DefaultResolution>
+      <DefaultResolution>ZPlatform, 1.4.0.13 (Zeugwerk GmbH)</DefaultResolution>
       <Namespace>ZPlatform</Namespace>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
     <PlaceholderResolution Include="ZApplication">
-      <Resolution>ZApplication, 1.4.0.10 (Zeugwerk GmbH)</Resolution>
+      <Resolution>ZApplication, 1.4.0.13 (Zeugwerk GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="ZAux">
-      <Resolution>ZAux, 1.4.0.10 (Zeugwerk GmbH)</Resolution>
+      <Resolution>ZAux, 1.4.0.13 (Zeugwerk GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="ZCore">
-      <Resolution>ZCore, 1.4.0.10 (Zeugwerk GmbH)</Resolution>
+      <Resolution>ZCore, 1.4.0.13 (Zeugwerk GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="ZEquipment">
-      <Resolution>ZEquipment, 1.4.0.10 (Zeugwerk GmbH)</Resolution>
+      <Resolution>ZEquipment, 1.4.0.13 (Zeugwerk GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="ZPlatform">
-      <Resolution>ZPlatform, 1.4.0.10 (Zeugwerk GmbH)</Resolution>
+      <Resolution>ZPlatform, 1.4.0.13 (Zeugwerk GmbH)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ItemGroup>
@@ -515,8 +515,8 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{40450F57-0AA3-4216-96F3-5444ECB29763}</v>
