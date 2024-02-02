@@ -21,7 +21,7 @@ REPEAT
     
       IF _step.OnEntry()
       THEN
-        ZModuleProgram.LoggerFile.SetLevel(ZCore.LogLevel.Trace);
+        ZModuleProgram.SetLoggerLevel(ZCore.LogLevel.Trace);
         ZModuleProgram.Logger.AddLogger(ZModuleProgram.LoggerFile);        
         {attribute '__ZwPlcAppZComModuleContext__'} // Do not remove this attribute! It is used for code generation.      
       END_IF

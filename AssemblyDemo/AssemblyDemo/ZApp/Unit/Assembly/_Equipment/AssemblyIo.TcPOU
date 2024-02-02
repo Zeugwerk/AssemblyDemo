@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AssemblyIo" Id="{40909408-c8b0-427a-9e1c-b6a5dab53230}" SpecialFunc="None">
     <Declaration><![CDATA[/// This function block is a container for all I/Os that are used by this unit.
@@ -11,6 +11,11 @@ VAR
 END_VAR
 VAR_INPUT
 
+{region "YellowLight : Light"}
+  YellowLight : ZEquipment.Light(_parent);
+  {attribute 'ZId' := 'd8b54b94-4c20-4805-9de3-a35aa5023c5d'}
+{endregion}
+
 {attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
 END_VAR
 ]]></Declaration>
@@ -22,8 +27,23 @@ END_IF
 
   _iobridge.SetLogger(_parent._logger);
 
-{attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.]]>
+{region "YellowLight : Light"}
+  YellowLight.SetLogger(_parent._logger);
+  YellowLight.SetName('YellowLight');
+  YellowLight.SetSimulation(on:=_parent._data.Config.Simulated);
+  YellowLight.SetLogic(ZEquipment.DigitalLogic.Normal);
+  _ioBridge.AddLight(YellowLight, publish := _parent._com.Publish.Equipment.YellowLight, subscribe := _parent._com.Subscribe.Equipment.YellowLight);
 
-_isInitialized := TRUE;</ST></Implementation>
+  {region "UserInitCode"}
+  // put your individual init code for this I/O here
+  {endregion}
+
+  {attribute 'ZId' := 'd8b54b94-4c20-4805-9de3-a35aa5023c5d'}
+{endregion}
+
+{attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
+
+_isInitialized := TRUE;]]></ST>
+    </Implementation>
   </POU>
 </TcPlcObject>

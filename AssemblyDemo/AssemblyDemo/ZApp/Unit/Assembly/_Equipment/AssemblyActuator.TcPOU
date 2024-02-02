@@ -19,6 +19,8 @@ VAR_INPUT
 {endregion}
 
 {attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
+
+  HorizontalListener : ActuatorHorizontalListener(Horizontal);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -31,7 +33,7 @@ END_IF
 
 {region "Horizontal : ActuatorDigitalBiLsPlusMinus"}
   Horizontal.SetLogger(_parent._logger);
-  Horizontal.SetName(name:='Horizontal', movePlusName:='Auf', moveMinusName:='Zu', plusName:='Offen', minusName:='Geschlossen');
+  Horizontal.SetName(name:='Horizontal', movePlusName:='ToTransport', moveMinusName:='ToAssembly', plusName:='AtTransport', minusName:='AtAssembly');
   Horizontal.SetSimulation(SEL(_parent._data.Config.Simulated, ActuatorDigitalSimulation.Disabled, ZEquipment.ActuatorDigitalSimulation.Automatic));
   Horizontal.SetSimulationUncertainty(uncertainty:=10);
   Horizontal.SetDelay(plusStartDuration:=0, plusEndDuration:=0, minusStartDuration:=0, minusEndDuration:=0, stop:=0);
@@ -39,10 +41,10 @@ END_IF
   Horizontal.SetMovementDuration(plusDuration:=3, minusDuration:=3);
   Horizontal.SetTimeout(plusDuration:=5, minusDuration:=5);
   _actuatorbridge.AddActuatorDigital(Horizontal, publish := _parent._com.Publish.Equipment.Horizontal, subscribe := _parent._com.Subscribe.Equipment.Horizontal);
-  _iobridge.AddDigitalOutput(Horizontal.MinusOutput, publish := _parent._com.Publish.Equipment.HorizontalZu, subscribe := _parent._com.Subscribe.Equipment.HorizontalZu);
-  _iobridge.AddDigitalOutput(Horizontal.PlusOutput, publish := _parent._com.Publish.Equipment.HorizontalAuf, subscribe := _parent._com.Subscribe.Equipment.HorizontalAuf);
-  _iobridge.AddDigitalInput(Horizontal.MinusInput, publish := _parent._com.Publish.Equipment.HorizontalGeschlossen, subscribe := _parent._com.Subscribe.Equipment.HorizontalGeschlossen);
-  _iobridge.AddDigitalInput(Horizontal.PlusInput, publish := _parent._com.Publish.Equipment.HorizontalOffen, subscribe := _parent._com.Subscribe.Equipment.HorizontalOffen);
+  _iobridge.AddDigitalOutput(Horizontal.MinusOutput, publish := _parent._com.Publish.Equipment.HorizontalToAssembly, subscribe := _parent._com.Subscribe.Equipment.HorizontalToAssembly);
+  _iobridge.AddDigitalOutput(Horizontal.PlusOutput, publish := _parent._com.Publish.Equipment.HorizontalToTransport, subscribe := _parent._com.Subscribe.Equipment.HorizontalToTransport);
+  _iobridge.AddDigitalInput(Horizontal.MinusInput, publish := _parent._com.Publish.Equipment.HorizontalAtAssembly, subscribe := _parent._com.Subscribe.Equipment.HorizontalAtAssembly);
+  _iobridge.AddDigitalInput(Horizontal.PlusInput, publish := _parent._com.Publish.Equipment.HorizontalAtTransport, subscribe := _parent._com.Subscribe.Equipment.HorizontalAtTransport);
   {region "UserInitCode"}
   // put your individual init code for this Actuator here
   {endregion}
@@ -51,6 +53,11 @@ END_IF
 {endregion}
 
 {attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
+
+  HorizontalListener.SetLogger(_parent._logger);
+  HorizontalListener.SetLight(_parent._equipment.Io.YellowLight);
+  HorizontalListener.SetAxis(_parent._equipment.Axis.Vertical);
+  HorizontalListener.SetName('HorizontalActuatorListener');
 
 _isInitialized := TRUE;]]></ST>
     </Implementation>

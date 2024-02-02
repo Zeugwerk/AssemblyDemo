@@ -81,5 +81,15 @@ END_VAR
 {attribute '__ZwPlcApplicationModuleProgramImplementation__'} // Do not remove this attribute! It is used for code generation.
 ]]></ST>
     </Implementation>
+    <Method Name="SetLoggerLevel" Id="{161b77ed-28a7-4b1c-a0cf-59e8e5af92a2}">
+      <Declaration><![CDATA[METHOD SetLoggerLevel
+VAR_INPUT
+  level : ZCore.LogLevel;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[LoggerFile.MinimumLevel := level;]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

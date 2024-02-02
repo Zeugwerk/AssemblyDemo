@@ -11,11 +11,16 @@ STRUCT
 
 {region "Horizontal : ActuatorDigital"}
   Horizontal : ZApplication.ActuatorDigitalComPublish;
-  HorizontalZu : ZApplication.DigitalComPublish;
-  HorizontalAuf : ZApplication.DigitalComPublish;
-  HorizontalGeschlossen : ZApplication.DigitalComPublish;
-  HorizontalOffen : ZApplication.DigitalComPublish;
+  HorizontalToAssembly : ZApplication.DigitalComPublish;
+  HorizontalToTransport : ZApplication.DigitalComPublish;
+  HorizontalAtAssembly : ZApplication.DigitalComPublish;
+  HorizontalAtTransport : ZApplication.DigitalComPublish;
   {attribute 'ZId' := 'bf04a1fd-9e2a-444c-be25-15a99c5011b8'}
+{endregion}
+
+{region "YellowLight : Digital"}
+  YellowLight : ZApplication.DigitalComPublish;
+  {attribute 'ZId' := 'd8b54b94-4c20-4805-9de3-a35aa5023c5d'}
 {endregion}
 
 {attribute '__ZwPlcUnitComDeclaration__'} // Do not remove this attribute! It is used for code generation.

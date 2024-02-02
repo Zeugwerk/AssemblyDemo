@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.54">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.55">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{CBC83B73-B816-4597-A9E5-2B03263CA131}" Namespace="MC" TcBaseType="true" HideType="true" IecDeclaration="DWORD;">NCTOPLC_AXIS_REF_STATE</Name>
@@ -987,6 +987,7 @@ External Setpoint Generation:
 			<Licenses>
 				<Target>
 					<ManualSelect>{EA27E631-101B-4AF7-BEB7-EB77F65C3A57}</ManualSelect>
+					<ManualSelect>{86B1B55C-B422-4C10-A9C3-EF086C866F28}</ManualSelect>
 				</Target>
 			</Licenses>
 			<Tasks>
@@ -997,11 +998,27 @@ External Setpoint Generation:
 		</System>
 		<Plc>
 			<Project GUID="{5DA4BDDF-6D97-4FDA-BFFF-836C9B5D7781}" Name="AssemblyDemo" PrjFilePath="AssemblyDemo\AssemblyDemo.plcproj" TmcFilePath="AssemblyDemo\AssemblyDemo.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="AssemblyDemo\AssemblyDemo.tmc" TmcHash="{5593D58C-941F-A939-1855-58D6C0E7FCC1}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="AssemblyDemo\AssemblyDemo.tmc" TmcHash="{85502FA7-83EB-EF7E-B364-5D1F918D694C}">
 					<Name>AssemblyDemo Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
 						<Name>ZModuleTask Inputs</Name>
+						<Var>
+							<Name>ZModuleProgram.Transport._equipment.Actuator.Gripper.MinusInput._physicalLink</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ZModuleProgram.Transport._equipment.Actuator.Gripper.PlusInput._physicalLink</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ZModuleProgram.Transport._equipment.Axis.HorizontalX._implPhysical._drive.Axis.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>ZModuleProgram.Transport._equipment.Axis.VerticalZ._implPhysical._drive.Axis.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
 						<Var>
 							<Name>ZModuleProgram.Drilling._equipment.Actuator.Vertical.MinusInput._physicalLink</Name>
 							<Type>BOOL</Type>
@@ -1026,31 +1043,35 @@ External Setpoint Generation:
 							<Name>ZModuleProgram.QualityInspection._equipment.Io.CamOk._physicalLink</Name>
 							<Type>BOOL</Type>
 						</Var>
-						<Var>
-							<Name>ZModuleProgram.Transport._equipment.Actuator.Gripper.MinusInput._physicalLink</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>ZModuleProgram.Transport._equipment.Actuator.Gripper.PlusInput._physicalLink</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>ZModuleProgram.Transport._equipment.Axis.HorizontalX._implPhysical._drive.Axis.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>ZModuleProgram.Transport._equipment.Axis.VerticalZ._implPhysical._drive.Axis.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
 					</Vars>
 					<Vars VarGrpType="2" AreaNo="1">
 						<Name>ZModuleTask Outputs</Name>
+						<Var>
+							<Name>ZModuleProgram.Transport._equipment.Actuator.Gripper.MinusOutput._physicalLink</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ZModuleProgram.Transport._equipment.Actuator.Gripper.PlusOutput._physicalLink</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ZModuleProgram.Transport._equipment.Axis.HorizontalX._implPhysical._drive.Axis.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>ZModuleProgram.Transport._equipment.Axis.VerticalZ._implPhysical._drive.Axis.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
 						<Var>
 							<Name>ZModuleProgram.Drilling._equipment.Actuator.Vertical.MinusOutput._physicalLink</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>ZModuleProgram.Drilling._equipment.Actuator.Vertical.PlusOutput._physicalLink</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ZModuleProgram.Assembly._equipment.Io.YellowLight._out._physicalLink</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -1072,22 +1093,6 @@ External Setpoint Generation:
 						<Var>
 							<Name>ZModuleProgram.QualityInspection._equipment.Io.EnableLight._physicalLink</Name>
 							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>ZModuleProgram.Transport._equipment.Actuator.Gripper.MinusOutput._physicalLink</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>ZModuleProgram.Transport._equipment.Actuator.Gripper.PlusOutput._physicalLink</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>ZModuleProgram.Transport._equipment.Axis.HorizontalX._implPhysical._drive.Axis.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>ZModuleProgram.Transport._equipment.Axis.VerticalZ._implPhysical._drive.Axis.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 						</Var>
 					</Vars>
 					<Contexts>
