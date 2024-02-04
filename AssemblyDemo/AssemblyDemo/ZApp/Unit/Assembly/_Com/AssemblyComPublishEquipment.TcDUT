@@ -23,6 +23,27 @@ STRUCT
   {attribute 'ZId' := 'd8b54b94-4c20-4805-9de3-a35aa5023c5d'}
 {endregion}
 
+{region "RedLight : Digital"}
+  RedLight : ZApplication.DigitalComPublish;
+  {attribute 'ZId' := '810dce14-d302-4e94-b60a-e39841040373'}
+{endregion}
+
+{region "GreenLight : Digital"}
+  GreenLight : ZApplication.DigitalComPublish;
+  {attribute 'ZId' := 'f5a46fca-074f-4557-8a14-cee504d2eb08'}
+{endregion}
+
+{region "PneumaticsOk : Digital"}
+  PneumaticsOk : ZApplication.DigitalComPublish;
+  {attribute 'ZId' := 'e461ecc5-0720-4dc8-ad47-eeb7ce01769f'}
+{endregion}
+
+{region "Gripper : ActuatorDigital"}
+  Gripper : ZApplication.ActuatorDigitalComPublish;
+  GripperAuf : ZApplication.DigitalComPublish;
+  {attribute 'ZId' := 'd18888e4-9abb-463d-b01d-e5fd8694a677'}
+{endregion}
+
 {attribute '__ZwPlcUnitComDeclaration__'} // Do not remove this attribute! It is used for code generation.
 
 END_STRUCT

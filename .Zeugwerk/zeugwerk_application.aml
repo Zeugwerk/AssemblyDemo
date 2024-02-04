@@ -1,7 +1,7 @@
 ﻿<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="zeugwerk_application.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
   <AdditionalInformation AutomationMLVersion="2.0" />
   <AdditionalInformation DocumentVersions="Recommendations">
-    <Document DocumentIdentifier="Z.AmlLibs" Version="1.2.0" />
+    <Document DocumentIdentifier="Z.AmlLibs" Version="1.5.0" />
   </AdditionalInformation>
   <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
   <SourceDocumentInformation OriginName="AutomationML Editor" OriginID="916578CA-FE0D-474E-A4FC-9E1719892369" OriginVersion="5.6.2.0" LastWritingDateTime="2021-11-22T17:41:57.1464048+01:00" OriginVendor="Zeugwerk" OriginVendorURL="https://zeugwerk.at/" OriginRelease="5.6.2.0" OriginProjectTitle="Zeugwerk Framework Aml-Template" OriginProjectID="Z.AmlLibs" />
@@ -447,9 +447,374 @@
             </InternalElement>
           </InternalElement>
           <InternalElement Name="Equipment" ID="b3eff8a3-1dab-4620-b85d-9e801bb5b406">
-            <InternalElement Name="YellowLight" ID="d8b54b94-4c20-4805-9de3-a35aa5023c5d" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentIo">
+            <InternalElement Name="Gripper" ID="d18888e4-9abb-463d-b01d-e5fd8694a677" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentActuator">
               <Attribute Name="DisplayName" AttributeDataType="xs:string">
-                <Value>YellowLight</Value>
+                <Value>Gripper</Value>
+              </Attribute>
+              <Attribute Name="Logger" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                <Value>ZObjectLib/Common/Logger</Value>
+              </Attribute>
+              <Attribute Name="Simulated" AttributeDataType="xs:string">
+                <Value>Indeterminate</Value>
+              </Attribute>
+              <Attribute Name="SetLogger" AttributeDataType="xs:boolean">
+                <Description>Shall the Unit Logger be added to the I/O.</Description>
+                <DefaultValue>true</DefaultValue>
+              </Attribute>
+              <Attribute Name="Type" AttributeDataType="xs:string">
+                <Description>PLC Type of the Actuator</Description>
+                <Value>ActuatorDigitalMonoPlusLsNo</Value>
+              </Attribute>
+              <Attribute Name="ActuatorTest" AttributeDataType="xs:boolean">
+                <Description>Should the Actuator be added to the acutatorbridge for Actuator Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="IoTest" AttributeDataType="xs:boolean">
+                <Description>Should the IO of the actuator be added to the iobridge for I/O Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="ActuatorDigital" AttributeDataType="xs:string">
+                <Attribute Name="MovePlusName" AttributeDataType="xs:string">
+                  <Value>Auf</Value>
+                </Attribute>
+                <Attribute Name="MoveMinusName" AttributeDataType="xs:string">
+                  <Value>Zu</Value>
+                </Attribute>
+                <Attribute Name="PlusName" AttributeDataType="xs:string">
+                  <Value>Offen</Value>
+                </Attribute>
+                <Attribute Name="MinusName" AttributeDataType="xs:string">
+                  <Value>Geschlossen</Value>
+                </Attribute>
+                <Attribute Name="Plus" AttributeDataType="xs:string">
+                  <Description>Parameters for the Plus Position of the actuator</Description>
+                  <Attribute Name="StartDelay" AttributeDataType="xs:double">
+                    <Description>Delay before a move is started</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Switch" AttributeDataType="xs:double">
+                    <Description>Time the output remains enabled during a move</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Timeout" AttributeDataType="xs:double">
+                    <Description>Maximum time a move can take</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="EndDelay" AttributeDataType="xs:double">
+                    <Description>Delay after a move before it ends</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Stop" AttributeDataType="xs:double">
+                    <Description>Delay after a stop has been triggered</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Simulation" AttributeDataType="xs:double">
+                    <Description>Simulated move duration</Description>
+                    <Value>1</Value>
+                  </Attribute>
+                  <Attribute Name="SimulationUncertainty" AttributeDataType="xs:double">
+                    <Description>Random range of simulation time in percent</Description>
+                    <Value>10</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="Minus" AttributeDataType="xs:string">
+                  <Description>Parameters for the Minus Position of the actuator</Description>
+                  <Attribute Name="StartDelay" AttributeDataType="xs:double">
+                    <Description>Delay before a move is started</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Switch" AttributeDataType="xs:double">
+                    <Description>Time the output remains enabled during a move</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Timeout" AttributeDataType="xs:double">
+                    <Description>Maximum time a move can take</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="EndDelay" AttributeDataType="xs:double">
+                    <Description>Delay after a move before it ends</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Stop" AttributeDataType="xs:double">
+                    <Description>Delay after a stop has been triggered</Description>
+                    <Value>0</Value>
+                  </Attribute>
+                  <Attribute Name="Simulation" AttributeDataType="xs:double">
+                    <Description>Simulated move duration</Description>
+                    <Value>1</Value>
+                  </Attribute>
+                  <Attribute Name="SimulationUncertainty" AttributeDataType="xs:double">
+                    <Description>Random range of simulation time in percent</Description>
+                    <Value>10</Value>
+                  </Attribute>
+                </Attribute>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZEquipment" />
+            </InternalElement>
+            <InternalElement Name="PneumaticsOk" ID="e461ecc5-0720-4dc8-ad47-eeb7ce01769f" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentIo">
+              <Attribute Name="DisplayName" AttributeDataType="xs:string">
+                <Value>PneumaticsOk</Value>
+              </Attribute>
+              <Attribute Name="Logger" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                <Value>ZObjectLib/Common/Logger</Value>
+              </Attribute>
+              <Attribute Name="Simulated" AttributeDataType="xs:string">
+                <Value>Indeterminate</Value>
+              </Attribute>
+              <Attribute Name="SetLogger" AttributeDataType="xs:boolean">
+                <Description>Shall the Unit Logger be added to the I/O.</Description>
+                <DefaultValue>true</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="Type" AttributeDataType="xs:string">
+                <Description>PLC Type of the I/O</Description>
+                <Value>DigitalInput</Value>
+              </Attribute>
+              <Attribute Name="IoTest" AttributeDataType="xs:boolean">
+                <Description>Should the IO be added to the iobridge for I/O Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="DigitalIo" AttributeDataType="xs:string">
+                <Attribute Name="Logic" AttributeDataType="xs:string">
+                  <DefaultValue>Normal</DefaultValue>
+                  <Value>Normal</Value>
+                  <Constraint Name="AllowedValues">
+                    <NominalScaledType>
+                      <RequiredValue>Normal</RequiredValue>
+                      <RequiredValue>Inverted</RequiredValue>
+                    </NominalScaledType>
+                  </Constraint>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="DebouncedInput" AttributeDataType="xs:string">
+                <Attribute Name="EnabledDebouncingTime" AttributeDataType="xs:double" Unit="s">
+                  <Value>0.1</Value>
+                </Attribute>
+                <Attribute Name="DisabledDebouncingTime" AttributeDataType="xs:double" Unit="s">
+                  <Value>0.1</Value>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="AnalogIo" AttributeDataType="xs:string">
+                <Attribute Name="DataType" AttributeDataType="xs:string">
+                  <Value>Int</Value>
+                </Attribute>
+                <Attribute Name="Slope" AttributeDataType="xs:double">
+                  <Description>Slope for conversion from physical to electrical</Description>
+                  <Value>6.4</Value>
+                </Attribute>
+                <Attribute Name="Intercept" AttributeDataType="xs:double">
+                  <Description>Offset for conversion from physical to electrical</Description>
+                  <Value>-0.4</Value>
+                </Attribute>
+                <Attribute Name="Resolution" AttributeDataType="xs:string" Unit="Bit">
+                  <Value>16</Value>
+                </Attribute>
+                <Attribute Name="TerminalMin" AttributeDataType="xs:double">
+                  <Value>4</Value>
+                </Attribute>
+                <Attribute Name="TerminalMax" AttributeDataType="xs:double">
+                  <Value>20</Value>
+                </Attribute>
+                <Attribute Name="TerminalUnit" AttributeDataType="xs:string">
+                  <Value>mA</Value>
+                </Attribute>
+                <Attribute Name="ElecMin" AttributeDataType="xs:double">
+                  <Value>10</Value>
+                </Attribute>
+                <Attribute Name="ElecMax" AttributeDataType="xs:double">
+                  <Value>20</Value>
+                </Attribute>
+                <Attribute Name="PhysMin" AttributeDataType="xs:double">
+                  <Value>2</Value>
+                </Attribute>
+                <Attribute Name="PhysMax" AttributeDataType="xs:double">
+                  <Value>6</Value>
+                </Attribute>
+                <Attribute Name="PhysUnit" AttributeDataType="xs:string">
+                  <Value>bar</Value>
+                </Attribute>
+                <Attribute Name="DecimalPlaces" AttributeDataType="xs:int">
+                  <Value>1</Value>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="OnOffController" AttributeDataType="xs:double">
+                <Attribute Name="Output" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'OnOffController.Output'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentIo</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>DigitalOutput</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="Feedback" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'OnOffController.Feedback'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentIo</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>AnalogInput</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="SwitchOffAt" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+                <Attribute Name="SwitchOnAt" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+                <Attribute Name="SettlingDuration" AttributeDataType="xs:double" Unit="s">
+                  <Value>30</Value>
+                </Attribute>
+                <Attribute Name="MaxSettlingDuration" AttributeDataType="xs:double" Unit="s">
+                  <Value>120</Value>
+                </Attribute>
+                <Attribute Name="FeedbackTolerance" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZEquipment" />
+            </InternalElement>
+            <InternalElement Name="GreenLight" ID="f5a46fca-074f-4557-8a14-cee504d2eb08" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentIo">
+              <Attribute Name="DisplayName" AttributeDataType="xs:string">
+                <Value>GreenLight</Value>
+              </Attribute>
+              <Attribute Name="Logger" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                <Value>ZObjectLib/Common/Logger</Value>
+              </Attribute>
+              <Attribute Name="Simulated" AttributeDataType="xs:string">
+                <Value>Indeterminate</Value>
+              </Attribute>
+              <Attribute Name="SetLogger" AttributeDataType="xs:boolean">
+                <Description>Shall the Unit Logger be added to the I/O.</Description>
+                <DefaultValue>true</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="Type" AttributeDataType="xs:string">
+                <Description>PLC Type of the I/O</Description>
+                <Value>Light</Value>
+              </Attribute>
+              <Attribute Name="IoTest" AttributeDataType="xs:boolean">
+                <Description>Should the IO be added to the iobridge for I/O Test purposes on an HMI</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value>True</Value>
+              </Attribute>
+              <Attribute Name="DigitalIo" AttributeDataType="xs:string">
+                <Attribute Name="Logic" AttributeDataType="xs:string">
+                  <DefaultValue>Normal</DefaultValue>
+                  <Value>Normal</Value>
+                  <Constraint Name="AllowedValues">
+                    <NominalScaledType>
+                      <RequiredValue>Normal</RequiredValue>
+                      <RequiredValue>Inverted</RequiredValue>
+                    </NominalScaledType>
+                  </Constraint>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="DebouncedInput" AttributeDataType="xs:string">
+                <Attribute Name="EnabledDebouncingTime" AttributeDataType="xs:double" Unit="s">
+                  <Value>0.1</Value>
+                </Attribute>
+                <Attribute Name="DisabledDebouncingTime" AttributeDataType="xs:double" Unit="s">
+                  <Value>0.1</Value>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="AnalogIo" AttributeDataType="xs:string">
+                <Attribute Name="DataType" AttributeDataType="xs:string">
+                  <Value>Int</Value>
+                </Attribute>
+                <Attribute Name="Slope" AttributeDataType="xs:double">
+                  <Description>Slope for conversion from physical to electrical</Description>
+                  <Value>6.4</Value>
+                </Attribute>
+                <Attribute Name="Intercept" AttributeDataType="xs:double">
+                  <Description>Offset for conversion from physical to electrical</Description>
+                  <Value>-0.4</Value>
+                </Attribute>
+                <Attribute Name="Resolution" AttributeDataType="xs:string" Unit="Bit">
+                  <Value>16</Value>
+                </Attribute>
+                <Attribute Name="TerminalMin" AttributeDataType="xs:double">
+                  <Value>4</Value>
+                </Attribute>
+                <Attribute Name="TerminalMax" AttributeDataType="xs:double">
+                  <Value>20</Value>
+                </Attribute>
+                <Attribute Name="TerminalUnit" AttributeDataType="xs:string">
+                  <Value>mA</Value>
+                </Attribute>
+                <Attribute Name="ElecMin" AttributeDataType="xs:double">
+                  <Value>10</Value>
+                </Attribute>
+                <Attribute Name="ElecMax" AttributeDataType="xs:double">
+                  <Value>20</Value>
+                </Attribute>
+                <Attribute Name="PhysMin" AttributeDataType="xs:double">
+                  <Value>2</Value>
+                </Attribute>
+                <Attribute Name="PhysMax" AttributeDataType="xs:double">
+                  <Value>6</Value>
+                </Attribute>
+                <Attribute Name="PhysUnit" AttributeDataType="xs:string">
+                  <Value>bar</Value>
+                </Attribute>
+                <Attribute Name="DecimalPlaces" AttributeDataType="xs:int">
+                  <Value>1</Value>
+                </Attribute>
+              </Attribute>
+              <Attribute Name="OnOffController" AttributeDataType="xs:double">
+                <Attribute Name="Output" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'OnOffController.Output'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentIo</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>DigitalOutput</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="Feedback" AttributeDataType="" RefAttributeType="">
+                  <Description>Type description of the coresponding mirror object 'OnOffController.Feedback'</Description>
+                  <Value></Value>
+                  <Attribute Name="RefBaseClass" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
+                    <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+                    <Value>ZObjectLib/Unit/Equipment/ZEquipmentIo</Value>
+                  </Attribute>
+                  <Attribute Name="Type" AttributeDataType="xs:string">
+                    <Value>AnalogInput</Value>
+                  </Attribute>
+                </Attribute>
+                <Attribute Name="SwitchOffAt" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+                <Attribute Name="SwitchOnAt" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+                <Attribute Name="SettlingDuration" AttributeDataType="xs:double" Unit="s">
+                  <Value>30</Value>
+                </Attribute>
+                <Attribute Name="MaxSettlingDuration" AttributeDataType="xs:double" Unit="s">
+                  <Value>120</Value>
+                </Attribute>
+                <Attribute Name="FeedbackTolerance" AttributeDataType="xs:double" Unit="Physical Value of Feedback Input">
+                  <Value>0</Value>
+                </Attribute>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZObject" />
+              <RoleRequirements RefBaseRoleClassPath="ZRoleClassLib/ZEquipment" />
+            </InternalElement>
+            <InternalElement Name="RedLight" ID="810dce14-d302-4e94-b60a-e39841040373" RefBaseSystemUnitPath="ZObjectLib/Unit/Equipment/ZEquipmentIo">
+              <Attribute Name="DisplayName" AttributeDataType="xs:string">
+                <Value>RedLight</Value>
               </Attribute>
               <Attribute Name="Logger" AttributeDataType="xs:string" RefAttributeType="ZAttributeTypeLib/ZObjectRelation">
                 <Value>ZObjectLib/Common/Logger</Value>
@@ -606,16 +971,16 @@
               </Attribute>
               <Attribute Name="ActuatorDigital" AttributeDataType="xs:string">
                 <Attribute Name="MovePlusName" AttributeDataType="xs:string">
-                  <Value>ToTransport</Value>
+                  <Value>Auf</Value>
                 </Attribute>
                 <Attribute Name="MoveMinusName" AttributeDataType="xs:string">
-                  <Value>ToAssembly</Value>
+                  <Value>Zu</Value>
                 </Attribute>
                 <Attribute Name="PlusName" AttributeDataType="xs:string">
-                  <Value>AtTransport</Value>
+                  <Value>Offen</Value>
                 </Attribute>
                 <Attribute Name="MinusName" AttributeDataType="xs:string">
-                  <Value>AtAssembly</Value>
+                  <Value>Geschlossen</Value>
                 </Attribute>
                 <Attribute Name="Plus" AttributeDataType="xs:string">
                   <Description>Parameters for the Plus Position of the actuator</Description>
@@ -1143,60 +1508,10 @@
     </InterfaceClass>
     <InterfaceClass Name="ModuleAssignment" RefBaseClassPath="CommunicationInterfaceClassLib/LogicalEndPoint" />
   </InterfaceClassLib>
-  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
-    <Description>Automation Markup Language base role class library</Description>
-    <Version>2.2.5</Version>
-    <RoleClass Name="AutomationMLBaseRole">
-      <RoleClass Name="Group" RefBaseClassPath="AutomationMLBaseRole">
-        <Attribute Name="AssociatedFacet" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/AssociatedFacet" />
-      </RoleClass>
-      <RoleClass Name="Facet" RefBaseClassPath="AutomationMLBaseRole" />
-      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRole" />
-      <RoleClass Name="Product" RefBaseClassPath="AutomationMLBaseRole" />
-      <RoleClass Name="Process" RefBaseClassPath="AutomationMLBaseRole" />
-      <RoleClass Name="Structure" RefBaseClassPath="AutomationMLBaseRole">
-        <RoleClass Name="ProductStructure" RefBaseClassPath="Structure" />
-        <RoleClass Name="ProcessStructure" RefBaseClassPath="Structure" />
-        <RoleClass Name="ResourceStructure" RefBaseClassPath="Structure" />
-      </RoleClass>
-      <RoleClass Name="ExternalData" RefBaseClassPath="AutomationMLBaseRole" />
-    </RoleClass>
-  </RoleClassLib>
-  <RoleClassLib Name="AutomationMLCSRoleClassLib">
-    <Description>Automation Markup Language Control Industry Role Class Library</Description>
-    <Version>2.3.0</Version>
-    <RoleClass Name="ControlEquipment" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource">
-      <RoleClass Name="Communication" RefBaseClassPath="ControlEquipment" />
-      <RoleClass Name="ControlHardware" RefBaseClassPath="ControlEquipment">
-        <RoleClass Name="PC" RefBaseClassPath="ControlHardware" />
-        <RoleClass Name="IPC" RefBaseClassPath="ControlHardware" />
-        <RoleClass Name="EmbeddedDevice" RefBaseClassPath="ControlHardware" />
-        <RoleClass Name="Handheld" RefBaseClassPath="ControlHardware" />
-      </RoleClass>
-      <RoleClass Name="Sensor" RefBaseClassPath="ControlEquipment" />
-      <RoleClass Name="Actuator" RefBaseClassPath="ControlEquipment" />
-      <RoleClass Name="Controller" RefBaseClassPath="ControlEquipment">
-        <RoleClass Name="PLC" RefBaseClassPath="Controller" />
-        <RoleClass Name="NC" RefBaseClassPath="Controller" />
-        <RoleClass Name="RC" RefBaseClassPath="Controller" />
-        <RoleClass Name="PAC" RefBaseClassPath="Controller" />
-      </RoleClass>
-    </RoleClass>
-  </RoleClassLib>
-  <RoleClassLib Name="AutomationMLDMIRoleClassLib">
-    <Description>Automation Markup Language  Discrete Manufacturing Industry Role Class Library</Description>
-    <Version>2.4.0</Version>
-    <RoleClass Name="DiscManufacturingEquipment" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource">
-      <RoleClass Name="Transport" RefBaseClassPath="DiscManufacturingEquipment" />
-      <RoleClass Name="Storage" RefBaseClassPath="DiscManufacturingEquipment" />
-      <RoleClass Name="Fixture" RefBaseClassPath="DiscManufacturingEquipment" />
-      <RoleClass Name="Gate" RefBaseClassPath="DiscManufacturingEquipment" />
-      <RoleClass Name="Robot" RefBaseClassPath="DiscManufacturingEquipment" />
-      <RoleClass Name="Tool" RefBaseClassPath="DiscManufacturingEquipment" />
-      <RoleClass Name="Carrier" RefBaseClassPath="DiscManufacturingEquipment" />
-      <RoleClass Name="Machine" RefBaseClassPath="DiscManufacturingEquipment" />
-      <RoleClass Name="StaticObject" RefBaseClassPath="DiscManufacturingEquipment" />
-    </RoleClass>
+  <RoleClassLib Name="ZRoleClassLib">
+    <Version>1.0.0</Version>
+    <RoleClass Name="ZObject" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    <RoleClass Name="ZEquipment" RefBaseClassPath="AutomationMLCSRoleClassLib/ControlEquipment" />
   </RoleClassLib>
   <RoleClassLib Name="AutomationMLExtendedRoleClassLib">
     <Version>2.7.0</Version>
@@ -1243,10 +1558,60 @@
     <RoleClass Name="Loader" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Storage" />
     <RoleClass Name="Unloader" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Storage" />
   </RoleClassLib>
-  <RoleClassLib Name="ZRoleClassLib">
-    <Version>1.0.0</Version>
-    <RoleClass Name="ZObject" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
-    <RoleClass Name="ZEquipment" RefBaseClassPath="AutomationMLCSRoleClassLib/ControlEquipment" />
+  <RoleClassLib Name="AutomationMLDMIRoleClassLib">
+    <Description>Automation Markup Language  Discrete Manufacturing Industry Role Class Library</Description>
+    <Version>2.4.0</Version>
+    <RoleClass Name="DiscManufacturingEquipment" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource">
+      <RoleClass Name="Transport" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Storage" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Fixture" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Gate" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Robot" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Tool" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Carrier" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Machine" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="StaticObject" RefBaseClassPath="DiscManufacturingEquipment" />
+    </RoleClass>
+  </RoleClassLib>
+  <RoleClassLib Name="AutomationMLCSRoleClassLib">
+    <Description>Automation Markup Language Control Industry Role Class Library</Description>
+    <Version>2.3.0</Version>
+    <RoleClass Name="ControlEquipment" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource">
+      <RoleClass Name="Communication" RefBaseClassPath="ControlEquipment" />
+      <RoleClass Name="ControlHardware" RefBaseClassPath="ControlEquipment">
+        <RoleClass Name="PC" RefBaseClassPath="ControlHardware" />
+        <RoleClass Name="IPC" RefBaseClassPath="ControlHardware" />
+        <RoleClass Name="EmbeddedDevice" RefBaseClassPath="ControlHardware" />
+        <RoleClass Name="Handheld" RefBaseClassPath="ControlHardware" />
+      </RoleClass>
+      <RoleClass Name="Sensor" RefBaseClassPath="ControlEquipment" />
+      <RoleClass Name="Actuator" RefBaseClassPath="ControlEquipment" />
+      <RoleClass Name="Controller" RefBaseClassPath="ControlEquipment">
+        <RoleClass Name="PLC" RefBaseClassPath="Controller" />
+        <RoleClass Name="NC" RefBaseClassPath="Controller" />
+        <RoleClass Name="RC" RefBaseClassPath="Controller" />
+        <RoleClass Name="PAC" RefBaseClassPath="Controller" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <Description>Automation Markup Language base role class library</Description>
+    <Version>2.2.5</Version>
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Group" RefBaseClassPath="AutomationMLBaseRole">
+        <Attribute Name="AssociatedFacet" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/AssociatedFacet" />
+      </RoleClass>
+      <RoleClass Name="Facet" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Product" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Process" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Structure" RefBaseClassPath="AutomationMLBaseRole">
+        <RoleClass Name="ProductStructure" RefBaseClassPath="Structure" />
+        <RoleClass Name="ProcessStructure" RefBaseClassPath="Structure" />
+        <RoleClass Name="ResourceStructure" RefBaseClassPath="Structure" />
+      </RoleClass>
+      <RoleClass Name="ExternalData" RefBaseClassPath="AutomationMLBaseRole" />
+    </RoleClass>
   </RoleClassLib>
   <RoleClassLib Name="CommunicationRoleClassLib">
     <Description>AutomationML Communication Role Class Library</Description>
@@ -1377,6 +1742,12 @@
     <RoleClass Name="NodeBusExtension" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
     <RoleClass Name="CommunicationInterfaceBusExtension" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
   </RoleClassLib>
+  <AttributeTypeLib Name="ZAttributeTypeLib">
+    <Version>1.0.0</Version>
+    <AttributeType Name="ZObjectRelation" AttributeDataType="xs:string">
+      <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
+    </AttributeType>
+  </AttributeTypeLib>
   <AttributeTypeLib Name="AutomationMLBaseAttributeTypeLib">
     <Description>Standard Automation Markup Language Attribute Type Library</Description>
     <Version>1.0</Version>
@@ -1402,11 +1773,5 @@
     <AttributeType Name="AssociatedValue" />
     <AttributeType Name="MIMEType" AttributeDataType="xs:string" />
     <AttributeType Name="DocLang" AttributeDataType="xs:string" />
-  </AttributeTypeLib>
-  <AttributeTypeLib Name="ZAttributeTypeLib">
-    <Version>1.0.0</Version>
-    <AttributeType Name="ZObjectRelation" AttributeDataType="xs:string">
-      <Description>Objekttype als CAEX Pfad, welcher als Interface auf ein anderes Objekt in Form eines Mirrorobjektes für die Verwendung initialisiert werden kann.</Description>
-    </AttributeType>
   </AttributeTypeLib>
 </CAEXFile>

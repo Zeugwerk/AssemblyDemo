@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AssemblySequenceBoot" Id="{0681ca68-ac14-4757-ba46-36358d4736a5}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK AssemblySequenceBoot EXTENDS AssemblySequence IMPLEMENTS ZCore.ISequence
@@ -31,8 +31,20 @@ REPEAT
       Assert(_parent._objectManager);
       IF _parent._objectManager.Done
       THEN
-        _step.SetNext(AssemblyStep.BootEnd);
+        _step.SetNext(AssemblyStep.BootSwitchOnPneumaticsOkInSimulation);
       END_IF
+
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+    AssemblyStep.BootSwitchOnPneumaticsOkInSimulation:
+    (* -------------------------------------------------------------------------------------------------------------------------------- *)
+      IF _step.OnEntry()
+      THEN        
+        // This IO is an input so this line will only have some effect if PneumaticsOk is simulated to feedback a 
+        // functioning pneumatics system to the application in simulation mode
+        _io.PneumaticsOk.Enable(TRUE);
+      END_IF
+      
+      _step.SetNext(index:=AssemblyStep.BootEnd);
 
     (* -------------------------------------------------------------------------------------------------------------------------------- *)
     AssemblyStep.BootEnd:

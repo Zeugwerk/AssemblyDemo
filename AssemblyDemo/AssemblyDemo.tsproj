@@ -998,7 +998,7 @@ External Setpoint Generation:
 		</System>
 		<Plc>
 			<Project GUID="{5DA4BDDF-6D97-4FDA-BFFF-836C9B5D7781}" Name="AssemblyDemo" PrjFilePath="AssemblyDemo\AssemblyDemo.plcproj" TmcFilePath="AssemblyDemo\AssemblyDemo.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="AssemblyDemo\AssemblyDemo.tmc" TmcHash="{85502FA7-83EB-EF7E-B364-5D1F918D694C}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="AssemblyDemo\AssemblyDemo.tmc" TmcHash="{0C79D951-1220-092B-7EF8-121C7F773B86}">
 					<Name>AssemblyDemo Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -1025,6 +1025,10 @@ External Setpoint Generation:
 						</Var>
 						<Var>
 							<Name>ZModuleProgram.Drilling._equipment.Actuator.Vertical.PlusInput._physicalLink</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ZModuleProgram.Assembly._equipment.Io.PneumaticsOk._physicalLink</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -1075,11 +1079,23 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
+							<Name>ZModuleProgram.Assembly._equipment.Io.RedLight._out._physicalLink</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ZModuleProgram.Assembly._equipment.Io.GreenLight._out._physicalLink</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>ZModuleProgram.Assembly._equipment.Actuator.Horizontal.MinusOutput._physicalLink</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>ZModuleProgram.Assembly._equipment.Actuator.Horizontal.PlusOutput._physicalLink</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ZModuleProgram.Assembly._equipment.Actuator.Gripper.PlusOutput._physicalLink</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>

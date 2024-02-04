@@ -18,9 +18,17 @@ VAR_INPUT
   {attribute 'ZId' := 'bf04a1fd-9e2a-444c-be25-15a99c5011b8'}
 {endregion}
 
+{region "Gripper : ActuatorDigitalMonoPlusLsNo"}
+  Gripper : AssemblyActuatorGripper(_parent);
+  {attribute 'ZId' := 'd18888e4-9abb-463d-b01d-e5fd8694a677'}
+{endregion}
+
 {attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
 
   HorizontalListener : ActuatorHorizontalListener(Horizontal);
+  HorizontalPneumaticsCheckListener : PneumaticsOkActuatorListener(Horizontal);
+  
+  GripperPneumaticsCheckListener : PneumaticsOkActuatorListener(Gripper);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -52,12 +60,38 @@ END_IF
   {attribute 'ZId' := 'bf04a1fd-9e2a-444c-be25-15a99c5011b8'}
 {endregion}
 
+{region "Gripper : ActuatorDigitalMonoPlusLsNo"}
+  Gripper.SetLogger(_parent._logger);
+  Gripper.SetName(name:='Gripper', movePlusName:='Auf', moveMinusName:='Zu', plusName:='Offen', minusName:='Geschlossen');
+  Gripper.SetSimulation(SEL(_parent._data.Config.Simulated, ActuatorDigitalSimulation.Disabled, ZEquipment.ActuatorDigitalSimulation.Automatic));
+  Gripper.SetSimulationUncertainty(uncertainty:=10);
+  Gripper.SetDelay(plusStartDuration:=0, plusEndDuration:=0, minusStartDuration:=0, minusEndDuration:=0, stop:=0);
+  Gripper.SetSwitchDuration(plusDuration:=0, minusDuration:=0);
+  Gripper.SetMovementDuration(plusDuration:=1, minusDuration:=1);
+  Gripper.SetTimeout(plusDuration:=0, minusDuration:=0);
+  _actuatorbridge.AddActuatorDigital(Gripper, publish := _parent._com.Publish.Equipment.Gripper, subscribe := _parent._com.Subscribe.Equipment.Gripper);
+  _iobridge.AddDigitalOutput(Gripper.PlusOutput, publish := _parent._com.Publish.Equipment.GripperAuf, subscribe := _parent._com.Subscribe.Equipment.GripperAuf);
+  {region "UserInitCode"}
+  // put your individual init code for this Actuator here
+  {endregion}
+
+  {attribute 'ZId' := 'd18888e4-9abb-463d-b01d-e5fd8694a677'}
+{endregion}
+
 {attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
 
   HorizontalListener.SetLogger(_parent._logger);
   HorizontalListener.SetLight(_parent._equipment.Io.YellowLight);
   HorizontalListener.SetAxis(_parent._equipment.Axis.Vertical);
   HorizontalListener.SetName('HorizontalActuatorListener');
+  
+  HorizontalPneumaticsCheckListener.SetLogger(_parent._logger);
+  HorizontalPneumaticsCheckListener.SetName('HorizontalPneumaticsCheckListener');
+  HorizontalPneumaticsCheckListener.SetPneumaticsOkIo(_parent._equipment.Io.PneumaticsOk);
+  
+  GripperPneumaticsCheckListener.SetLogger(_parent._logger);
+  GripperPneumaticsCheckListener.SetName('HorizontalPneumaticsCheckListener');
+  GripperPneumaticsCheckListener.SetPneumaticsOkIo(_parent._equipment.Io.PneumaticsOk);  
 
 _isInitialized := TRUE;]]></ST>
     </Implementation>

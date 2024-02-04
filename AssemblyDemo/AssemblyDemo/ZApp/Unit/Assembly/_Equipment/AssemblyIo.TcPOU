@@ -16,6 +16,21 @@ VAR_INPUT
   {attribute 'ZId' := 'd8b54b94-4c20-4805-9de3-a35aa5023c5d'}
 {endregion}
 
+{region "RedLight : Light"}
+  RedLight : ZEquipment.Light(_parent);
+  {attribute 'ZId' := '810dce14-d302-4e94-b60a-e39841040373'}
+{endregion}
+
+{region "GreenLight : Light"}
+  GreenLight : ZEquipment.Light(_parent);
+  {attribute 'ZId' := 'f5a46fca-074f-4557-8a14-cee504d2eb08'}
+{endregion}
+
+{region "PneumaticsOk : DigitalInput"}
+  PneumaticsOk : ZEquipment.DigitalInput;
+  {attribute 'ZId' := 'e461ecc5-0720-4dc8-ad47-eeb7ce01769f'}
+{endregion}
+
 {attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
 END_VAR
 ]]></Declaration>
@@ -39,6 +54,48 @@ END_IF
   {endregion}
 
   {attribute 'ZId' := 'd8b54b94-4c20-4805-9de3-a35aa5023c5d'}
+{endregion}
+
+{region "RedLight : Light"}
+  RedLight.SetLogger(_parent._logger);
+  RedLight.SetName('RedLight');
+  RedLight.SetSimulation(on:=_parent._data.Config.Simulated);
+  RedLight.SetLogic(ZEquipment.DigitalLogic.Normal);
+  _ioBridge.AddLight(RedLight, publish := _parent._com.Publish.Equipment.RedLight, subscribe := _parent._com.Subscribe.Equipment.RedLight);
+
+  {region "UserInitCode"}
+  // put your individual init code for this I/O here
+  {endregion}
+
+  {attribute 'ZId' := '810dce14-d302-4e94-b60a-e39841040373'}
+{endregion}
+
+{region "GreenLight : Light"}
+  GreenLight.SetLogger(_parent._logger);
+  GreenLight.SetName('GreenLight');
+  GreenLight.SetSimulation(on:=_parent._data.Config.Simulated);
+  GreenLight.SetLogic(ZEquipment.DigitalLogic.Normal);
+  _ioBridge.AddLight(GreenLight, publish := _parent._com.Publish.Equipment.GreenLight, subscribe := _parent._com.Subscribe.Equipment.GreenLight);
+
+  {region "UserInitCode"}
+  // put your individual init code for this I/O here
+  {endregion}
+
+  {attribute 'ZId' := 'f5a46fca-074f-4557-8a14-cee504d2eb08'}
+{endregion}
+
+{region "PneumaticsOk : DigitalInput"}
+  PneumaticsOk.SetLogger(_parent._logger);
+  PneumaticsOk.SetName('PneumaticsOk');
+  PneumaticsOk.SetSimulation(on:=_parent._data.Config.Simulated);
+  PneumaticsOk.SetLogic(ZEquipment.DigitalLogic.Normal);
+  _ioBridge.AddDigitalInput(PneumaticsOk, publish := _parent._com.Publish.Equipment.PneumaticsOk, subscribe := _parent._com.Subscribe.Equipment.PneumaticsOk);
+
+  {region "UserInitCode"}
+  // put your individual init code for this I/O here
+  {endregion}
+
+  {attribute 'ZId' := 'e461ecc5-0720-4dc8-ad47-eeb7ce01769f'}
 {endregion}
 
 {attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.

@@ -8,8 +8,8 @@ TYPE ActuatorHorizontalListenerStep :
   Undefined := 0
   
   ,PreMoveStepBegin
+  ,PreMoveStepStartLightBlinking
   ,PreMoveStepCheckAxisVerticalPosition
-  ,PreMoveStepSwitchOnLight
   ,PreMoveStepEnd
 );
 END_TYPE]]></Declaration>

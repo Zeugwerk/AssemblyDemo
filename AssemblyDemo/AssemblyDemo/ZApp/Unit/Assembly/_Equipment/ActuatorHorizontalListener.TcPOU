@@ -12,85 +12,71 @@ END_VAR
     <Implementation>
       <ST><![CDATA[CASE THIS^.Movement
 OF
-  ZEquipment.ActuatorDigitalMoveListenerMovementType.PreMovePlus:
-    SequencePreMovePlus();
-  
+  (* ############################################################################## *)
   ZEquipment.ActuatorDigitalMoveListenerMovementType.PreMoveMinus,
+  ZEquipment.ActuatorDigitalMoveListenerMovementType.PreMovePlus:
+  (* ############################################################################## *)
+    IF OnStart(_step)
+    THEN
+      ;
+    END_IF
+    
+    REPEAT
+      LogStep();
+      
+      CASE _step.Index OF
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+        ActuatorHorizontalListenerStep.PreMoveStepBegin:
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+          _step.SetNext(ActuatorHorizontalListenerStep.PreMoveStepStartLightBlinking);
+    
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+        ActuatorHorizontalListenerStep.PreMoveStepStartLightBlinking:
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+          IF _step.OnEntry()
+          THEN
+            _logger.Info('Start Light Blinking');
+            _yellowLight.Enable(characteristic:=LightCharacteristic.Isophase);
+          END_IF
+        
+          _step.SetNext(ActuatorHorizontalListenerStep.PreMoveStepCheckAxisVerticalPosition);
+        
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+        ActuatorHorizontalListenerStep.PreMoveStepCheckAxisVerticalPosition:
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+          IF _step.OnEntry()
+          THEN
+            _logger.Info('Check Axis Position');
+            _timer.WaitAsync(duration:=1.5);
+          END_IF
+        
+          // Check if axis is positioned greater than 5mm
+          IF _axis.ActualPosition > 5.0
+          THEN
+            Abort('Cant Move Actuator, Axis at wrong position, collission may occur');
+          ELSE
+            Await(obj1:=_timer, nextStep:=ActuatorHorizontalListenerStep.PreMoveStepEnd);
+          END_IF          
+        
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+        ActuatorHorizontalListenerStep.PreMoveStepEnd:
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+          SetBusy(FALSE);
+      
+      ELSE
+        Abort('sequence contains unhandled step');
+      END_CASE
+    UNTIL _step.IsNotRepeatable() OR_ELSE NOT Busy END_REPEAT
+  
+  (* ############################################################################## *)
   ZEquipment.ActuatorDigitalMoveListenerMovementType.PostMoveMinus,
   ZEquipment.ActuatorDigitalMoveListenerMovementType.PostMovePlus:
-    OtherMoveListeners();
+  (* ############################################################################## *)
+    _yellowLight.Enable(characteristic:=LightCharacteristic.FixedOff);
+    SetBusy(FALSE);
     
 END_CASE]]></ST>
     </Implementation>
-    <Method Name="OtherMoveListeners" Id="{f0280481-526c-42c9-9747-059d3f22dbbc}">
-      <Declaration><![CDATA[METHOD OtherMoveListeners
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF _timer.Done
-THEN
-  SetBusy(FALSE);
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="SequencePreMovePlus" Id="{85d35a3d-dc18-4e95-aa2c-cdd2e98d27e3}">
-      <Declaration><![CDATA[{attribute 'hide'}
-METHOD SequencePreMovePlus]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF OnStart(_step)
-THEN
-  ;
-END_IF
-
-REPEAT
-  LogStep();
-  
-  CASE _step.Index OF
-    (* -------------------------------------------------------------------------------------------------------------------------------- *)
-    ActuatorHorizontalListenerStep.PreMoveStepBegin:
-    (* -------------------------------------------------------------------------------------------------------------------------------- *)
-      _step.SetNext(ActuatorHorizontalListenerStep.PreMoveStepCheckAxisVerticalPosition);
-
-    (* -------------------------------------------------------------------------------------------------------------------------------- *)
-    ActuatorHorizontalListenerStep.PreMoveStepCheckAxisVerticalPosition:
-    (* -------------------------------------------------------------------------------------------------------------------------------- *)
-      IF _step.OnEntry()
-      THEN
-        _logger.Info('Check Axis-position');
-			END_IF
-    
-      // Check if axis is positioned greater than 5mm
-      IF _axis.ActualPosition > 5.0
-      THEN
-        Abort('Cant Move Actuator, Axis at wrong position, collission may occur');
-      ELSE
-        _step.SetNext(ActuatorHorizontalListenerStep.PreMoveStepSwitchOnLight);
-			END_IF
-    
-    (* -------------------------------------------------------------------------------------------------------------------------------- *)
-    ActuatorHorizontalListenerStep.PreMoveStepSwitchOnLight:
-    (* -------------------------------------------------------------------------------------------------------------------------------- *)
-      IF _step.OnEntry()
-      THEN
-        _yellowLight.Enable(characteristic := LightCharacteristic.Isophase);
-        _logger.Warning('Aktuator Horizontal is moving!!');
-        _timer.WaitAsync(5.0);
-			END_IF
-      
-      Await(obj1:=_timer, nextStep:=ActuatorHorizontalListenerStep.PreMoveStepEnd);
-    
-    (* -------------------------------------------------------------------------------------------------------------------------------- *)
-    ActuatorHorizontalListenerStep.PreMoveStepEnd:
-    (* -------------------------------------------------------------------------------------------------------------------------------- *)
-      SetBusy(FALSE);
-  
-  ELSE
-    Abort('sequence contains unhandled step');
-  END_CASE
-UNTIL _step.IsNotRepeatable() OR_ELSE NOT Busy END_REPEAT]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="SetAxis" Id="{6c0f1178-62a5-4421-a7d5-49fa863b98d4}">
       <Declaration><![CDATA[METHOD SetAxis
 VAR_INPUT

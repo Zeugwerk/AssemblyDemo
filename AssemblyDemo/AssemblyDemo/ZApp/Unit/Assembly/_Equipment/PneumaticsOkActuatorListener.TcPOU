@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="PneumaticsOkActuatorListener" Id="{326e6118-d64a-453d-9a18-d5780e382612}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PneumaticsOkActuatorListener EXTENDS ZEquipment.ActuatorDigitalMoveListenerSequence
+VAR
+  _pneumaticsOk : ZEquipment.IDigital;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE THIS^.Movement
+OF
+  ZEquipment.ActuatorDigitalMoveListenerMovementType.PreMoveMinus,
+  ZEquipment.ActuatorDigitalMoveListenerMovementType.PreMovePlus:
+    // Checking if pneumatics are ok and if not abort actuator action
+    IF _pneumaticsOk <> 0 AND_THEN NOT _pneumaticsOk.Enabled
+    THEN
+      Abort('Pneumatics are not OK; check pressure and try again!');
+      RETURN;
+		END_IF
+    
+  ZEquipment.ActuatorDigitalMoveListenerMovementType.PostMoveMinus,
+  ZEquipment.ActuatorDigitalMoveListenerMovementType.PostMovePlus:
+    ;
+    
+END_CASE
+
+SetBusy(FALSE);]]></ST>
+    </Implementation>
+    <Method Name="SetPneumaticsOkIo" Id="{c36b3e15-2bbe-407e-8947-cd83aad38763}">
+      <Declaration><![CDATA[METHOD SetPneumaticsOkIo
+VAR_INPUT
+  intrf : ZEquipment.IDigital;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_pneumaticsOk := intrf;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
