@@ -26,7 +26,19 @@ END_CASE
 
 SetBusy(FALSE);]]></ST>
     </Implementation>
-    <Method Name="SetPneumaticsOkIo" Id="{c36b3e15-2bbe-407e-8947-cd83aad38763}">
+    <Method Name="FB_init" Id="{8e73a511-f864-42a3-be6f-b4c79bd6f800}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+ bInitRetains : BOOL;
+ bInCopyCode : BOOL;
+ actuator : REFERENCE TO ActuatorDigital;
+ pneumaticsOk : ZEquipment.IDigital;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_pneumaticsOk := pneumaticsOk;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetPneumaticsOkIo" Id="{75555394-6bd5-4b5a-8864-8d0e8128cd3e}">
       <Declaration><![CDATA[METHOD SetPneumaticsOkIo
 VAR_INPUT
   intrf : ZEquipment.IDigital;

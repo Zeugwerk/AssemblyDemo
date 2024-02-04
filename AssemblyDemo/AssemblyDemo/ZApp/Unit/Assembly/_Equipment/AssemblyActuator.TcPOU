@@ -25,10 +25,10 @@ VAR_INPUT
 
 {attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
 
-  HorizontalListener : ActuatorHorizontalListener(Horizontal);
-  HorizontalPneumaticsCheckListener : PneumaticsOkActuatorListener(Horizontal);
+  HorizontalListener : ActuatorHorizontalListener(Horizontal, _parent._equipment.Axis.Vertical, _parent._equipment.Io.YellowLight);
+  HorizontalPneumaticsCheckListener : PneumaticsOkActuatorListener(Horizontal, _parent._equipment.Io.PneumaticsOk);
   
-  GripperPneumaticsCheckListener : PneumaticsOkActuatorListener(Gripper);
+  GripperPneumaticsCheckListener : PneumaticsOkActuatorListener(Gripper, _parent._equipment.Io.PneumaticsOk);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -81,8 +81,6 @@ END_IF
 {attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
 
   HorizontalListener.SetLogger(_parent._logger);
-  HorizontalListener.SetLight(_parent._equipment.Io.YellowLight);
-  HorizontalListener.SetAxis(_parent._equipment.Axis.Vertical);
   HorizontalListener.SetName('HorizontalActuatorListener');
   
   HorizontalPneumaticsCheckListener.SetLogger(_parent._logger);

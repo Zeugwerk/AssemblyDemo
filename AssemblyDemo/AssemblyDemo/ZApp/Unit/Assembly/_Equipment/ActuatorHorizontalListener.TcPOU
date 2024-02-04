@@ -77,24 +77,18 @@ OF
     
 END_CASE]]></ST>
     </Implementation>
-    <Method Name="SetAxis" Id="{6c0f1178-62a5-4421-a7d5-49fa863b98d4}">
-      <Declaration><![CDATA[METHOD SetAxis
+    <Method Name="FB_init" Id="{9e986534-858b-484f-af25-8b24aae65457}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
-  intrf : ZEquipment.IAxisFeedbackPosition;
-END_VAR
-]]></Declaration>
+ bInitRetains : BOOL;
+ bInCopyCode : BOOL;
+ actuator : REFERENCE TO ActuatorDigital;
+ axis : ZEquipment.IAxisFeedbackPosition;
+ light : ZEquipment.ILight;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_axis := intrf;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="SetLight" Id="{9372b738-990a-416a-a537-fe552fdb9dcf}">
-      <Declaration><![CDATA[METHOD SetLight
-VAR_INPUT
-  intrf : ZEquipment.ILight;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[_yellowLight := intrf;]]></ST>
+        <ST><![CDATA[_yellowLight := light;
+_axis := axis;]]></ST>
       </Implementation>
     </Method>
   </POU>
