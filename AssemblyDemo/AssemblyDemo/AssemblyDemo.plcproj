@@ -87,6 +87,9 @@
     <Compile Include="ZApp\Unit\Assembly\_Com\AssemblyComSubscribeEquipment.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ZApp\Unit\Assembly\_DataTypes\ActuatorHorizontalListenerStep.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ZApp\Unit\Assembly\_DataTypes\AssemblyState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -105,7 +108,13 @@
     <Compile Include="ZApp\Unit\Assembly\_Data\AssemblyDataRef.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ZApp\Unit\Assembly\_Equipment\ActuatorHorizontalListener.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ZApp\Unit\Assembly\_Equipment\AssemblyActuator.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ZApp\Unit\Assembly\_Equipment\AssemblyActuatorGripper.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ZApp\Unit\Assembly\_Equipment\AssemblyActuatorHorizontal.TcPOU">
@@ -124,6 +133,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ZApp\Unit\Assembly\_Equipment\AssemblyLinkedUnit.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ZApp\Unit\Assembly\_Equipment\PneumaticsOkActuatorListener.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ZApp\Unit\Assembly\_States\AssemblySequenceAutomatic.TcPOU">
@@ -471,40 +483,40 @@
       <Namespace>Tc3_Module</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="ZApplication">
-      <DefaultResolution>ZApplication, 1.4.0.13 (Zeugwerk GmbH)</DefaultResolution>
+      <DefaultResolution>ZApplication, 1.4.0.15 (Zeugwerk GmbH)</DefaultResolution>
       <Namespace>ZApplication</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="ZAux">
-      <DefaultResolution>ZAux, 1.4.0.13 (Zeugwerk GmbH)</DefaultResolution>
+      <DefaultResolution>ZAux, 1.4.0.15 (Zeugwerk GmbH)</DefaultResolution>
       <Namespace>ZAux</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="ZCore">
-      <DefaultResolution>ZCore, 1.4.0.13 (Zeugwerk GmbH)</DefaultResolution>
+      <DefaultResolution>ZCore, 1.4.0.15 (Zeugwerk GmbH)</DefaultResolution>
     </PlaceholderReference>
     <PlaceholderReference Include="ZEquipment">
-      <DefaultResolution>ZEquipment, 1.4.0.13 (Zeugwerk GmbH)</DefaultResolution>
+      <DefaultResolution>ZEquipment, 1.4.0.15 (Zeugwerk GmbH)</DefaultResolution>
       <Namespace>ZEquipment</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="ZPlatform">
-      <DefaultResolution>ZPlatform, 1.4.0.13 (Zeugwerk GmbH)</DefaultResolution>
+      <DefaultResolution>ZPlatform, 1.4.0.15 (Zeugwerk GmbH)</DefaultResolution>
       <Namespace>ZPlatform</Namespace>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
     <PlaceholderResolution Include="ZApplication">
-      <Resolution>ZApplication, 1.4.0.13 (Zeugwerk GmbH)</Resolution>
+      <Resolution>ZApplication, 1.4.0.15 (Zeugwerk GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="ZAux">
-      <Resolution>ZAux, 1.4.0.13 (Zeugwerk GmbH)</Resolution>
+      <Resolution>ZAux, 1.4.0.15 (Zeugwerk GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="ZCore">
-      <Resolution>ZCore, 1.4.0.13 (Zeugwerk GmbH)</Resolution>
+      <Resolution>ZCore, 1.4.0.15 (Zeugwerk GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="ZEquipment">
-      <Resolution>ZEquipment, 1.4.0.13 (Zeugwerk GmbH)</Resolution>
+      <Resolution>ZEquipment, 1.4.0.15 (Zeugwerk GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="ZPlatform">
-      <Resolution>ZPlatform, 1.4.0.13 (Zeugwerk GmbH)</Resolution>
+      <Resolution>ZPlatform, 1.4.0.15 (Zeugwerk GmbH)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ItemGroup>

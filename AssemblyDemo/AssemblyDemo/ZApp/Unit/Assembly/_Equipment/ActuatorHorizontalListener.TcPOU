@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ActuatorHorizontalListener" Id="{a4bdfe21-b23e-4da4-9649-deb28e8ebab5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ActuatorHorizontalListener EXTENDS ZEquipment.ActuatorDigitalMoveListenerSequence
+VAR
+  _timer : ZAux.Timer;
+  _step : ZCore.Step(ActuatorHorizontalListenerStep.PreMoveStepBegin, ActuatorHorizontalListenerStep.PreMoveStepEnd);
+  _yellowLight : ZEquipment.ILight;
+  _axis : ZEquipment.IAxisFeedbackPosition;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE THIS^.Movement
+OF
+  (* ############################################################################## *)
+  ZEquipment.ActuatorDigitalMoveListenerMovementType.PreMoveMinus,
+  ZEquipment.ActuatorDigitalMoveListenerMovementType.PreMovePlus:
+  (* ############################################################################## *)
+    IF OnStart(_step)
+    THEN
+      ;
+    END_IF
+    
+    REPEAT
+      LogStep();
+      
+      CASE _step.Index OF
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+        ActuatorHorizontalListenerStep.PreMoveStepBegin:
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+          _step.SetNext(ActuatorHorizontalListenerStep.PreMoveStepStartLightBlinking);
+    
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+        ActuatorHorizontalListenerStep.PreMoveStepStartLightBlinking:
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+          IF _step.OnEntry()
+          THEN
+            _logger.Info('Start Light Blinking');
+            _yellowLight.Enable(characteristic:=LightCharacteristic.Isophase);
+          END_IF
+        
+          _step.SetNext(ActuatorHorizontalListenerStep.PreMoveStepCheckAxisVerticalPosition);
+        
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+        ActuatorHorizontalListenerStep.PreMoveStepCheckAxisVerticalPosition:
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+          IF _step.OnEntry()
+          THEN
+            _logger.Info('Check Axis Position');
+            _timer.WaitAsync(duration:=1.5);
+          END_IF
+        
+          // Check if axis is positioned greater than 5mm
+          IF _axis.ActualPosition > 5.0
+          THEN
+            Abort('Cant Move Actuator, Axis at wrong position, collission may occur');
+          ELSE
+            Await(obj1:=_timer, nextStep:=ActuatorHorizontalListenerStep.PreMoveStepEnd);
+          END_IF          
+        
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+        ActuatorHorizontalListenerStep.PreMoveStepEnd:
+        (* -------------------------------------------------------------------------------------------------------------------------------- *)
+          SetBusy(FALSE);
+      
+      ELSE
+        Abort('sequence contains unhandled step');
+      END_CASE
+    UNTIL _step.IsNotRepeatable() OR_ELSE NOT Busy END_REPEAT
+  
+  (* ############################################################################## *)
+  ZEquipment.ActuatorDigitalMoveListenerMovementType.PostMoveMinus,
+  ZEquipment.ActuatorDigitalMoveListenerMovementType.PostMovePlus:
+  (* ############################################################################## *)
+    _yellowLight.Enable(characteristic:=LightCharacteristic.FixedOff);
+    SetBusy(FALSE);
+    
+END_CASE]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{9e986534-858b-484f-af25-8b24aae65457}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+ bInitRetains : BOOL;
+ bInCopyCode : BOOL;
+ actuator : REFERENCE TO ActuatorDigital;
+ axis : ZEquipment.IAxisFeedbackPosition;
+ light : ZEquipment.ILight;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_yellowLight := light;
+_axis := axis;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

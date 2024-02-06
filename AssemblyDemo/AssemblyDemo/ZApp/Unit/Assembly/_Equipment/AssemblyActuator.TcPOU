@@ -18,7 +18,17 @@ VAR_INPUT
   {attribute 'ZId' := 'bf04a1fd-9e2a-444c-be25-15a99c5011b8'}
 {endregion}
 
+{region "Gripper : ActuatorDigitalMonoPlusLsNo"}
+  Gripper : AssemblyActuatorGripper(_parent);
+  {attribute 'ZId' := 'd18888e4-9abb-463d-b01d-e5fd8694a677'}
+{endregion}
+
 {attribute '__ZwPlcUnitEquipmentDeclaration__'} // Do not remove this attribute! It is used for code generation.
+
+  HorizontalListener : ActuatorHorizontalListener(Horizontal, _parent._equipment.Axis.Vertical, _parent._equipment.Io.YellowLight);
+  HorizontalPneumaticsCheckListener : PneumaticsOkActuatorListener(Horizontal, _parent._equipment.Io.PneumaticsOk);
+  
+  GripperPneumaticsCheckListener : PneumaticsOkActuatorListener(Gripper, _parent._equipment.Io.PneumaticsOk);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -31,7 +41,7 @@ END_IF
 
 {region "Horizontal : ActuatorDigitalBiLsPlusMinus"}
   Horizontal.SetLogger(_parent._logger);
-  Horizontal.SetName(name:='Horizontal', movePlusName:='Auf', moveMinusName:='Zu', plusName:='Offen', minusName:='Geschlossen');
+  Horizontal.SetName(name:='Horizontal', movePlusName:='ToTransport', moveMinusName:='ToAssembly', plusName:='AtTransport', minusName:='AtAssembly');
   Horizontal.SetSimulation(SEL(_parent._data.Config.Simulated, ActuatorDigitalSimulation.Disabled, ZEquipment.ActuatorDigitalSimulation.Automatic));
   Horizontal.SetSimulationUncertainty(uncertainty:=10);
   Horizontal.SetDelay(plusStartDuration:=0, plusEndDuration:=0, minusStartDuration:=0, minusEndDuration:=0, stop:=0);
@@ -39,10 +49,10 @@ END_IF
   Horizontal.SetMovementDuration(plusDuration:=3, minusDuration:=3);
   Horizontal.SetTimeout(plusDuration:=5, minusDuration:=5);
   _actuatorbridge.AddActuatorDigital(Horizontal, publish := _parent._com.Publish.Equipment.Horizontal, subscribe := _parent._com.Subscribe.Equipment.Horizontal);
-  _iobridge.AddDigitalOutput(Horizontal.MinusOutput, publish := _parent._com.Publish.Equipment.HorizontalZu, subscribe := _parent._com.Subscribe.Equipment.HorizontalZu);
-  _iobridge.AddDigitalOutput(Horizontal.PlusOutput, publish := _parent._com.Publish.Equipment.HorizontalAuf, subscribe := _parent._com.Subscribe.Equipment.HorizontalAuf);
-  _iobridge.AddDigitalInput(Horizontal.MinusInput, publish := _parent._com.Publish.Equipment.HorizontalGeschlossen, subscribe := _parent._com.Subscribe.Equipment.HorizontalGeschlossen);
-  _iobridge.AddDigitalInput(Horizontal.PlusInput, publish := _parent._com.Publish.Equipment.HorizontalOffen, subscribe := _parent._com.Subscribe.Equipment.HorizontalOffen);
+  _iobridge.AddDigitalOutput(Horizontal.MinusOutput, publish := _parent._com.Publish.Equipment.HorizontalToAssembly, subscribe := _parent._com.Subscribe.Equipment.HorizontalToAssembly);
+  _iobridge.AddDigitalOutput(Horizontal.PlusOutput, publish := _parent._com.Publish.Equipment.HorizontalToTransport, subscribe := _parent._com.Subscribe.Equipment.HorizontalToTransport);
+  _iobridge.AddDigitalInput(Horizontal.MinusInput, publish := _parent._com.Publish.Equipment.HorizontalAtAssembly, subscribe := _parent._com.Subscribe.Equipment.HorizontalAtAssembly);
+  _iobridge.AddDigitalInput(Horizontal.PlusInput, publish := _parent._com.Publish.Equipment.HorizontalAtTransport, subscribe := _parent._com.Subscribe.Equipment.HorizontalAtTransport);
   {region "UserInitCode"}
   // put your individual init code for this Actuator here
   {endregion}
@@ -50,7 +60,36 @@ END_IF
   {attribute 'ZId' := 'bf04a1fd-9e2a-444c-be25-15a99c5011b8'}
 {endregion}
 
+{region "Gripper : ActuatorDigitalMonoPlusLsNo"}
+  Gripper.SetLogger(_parent._logger);
+  Gripper.SetName(name:='Gripper', movePlusName:='Auf', moveMinusName:='Zu', plusName:='Offen', minusName:='Geschlossen');
+  Gripper.SetSimulation(SEL(_parent._data.Config.Simulated, ActuatorDigitalSimulation.Disabled, ZEquipment.ActuatorDigitalSimulation.Automatic));
+  Gripper.SetSimulationUncertainty(uncertainty:=10);
+  Gripper.SetDelay(plusStartDuration:=0, plusEndDuration:=0, minusStartDuration:=0, minusEndDuration:=0, stop:=0);
+  Gripper.SetSwitchDuration(plusDuration:=0, minusDuration:=0);
+  Gripper.SetMovementDuration(plusDuration:=1, minusDuration:=1);
+  Gripper.SetTimeout(plusDuration:=0, minusDuration:=0);
+  _actuatorbridge.AddActuatorDigital(Gripper, publish := _parent._com.Publish.Equipment.Gripper, subscribe := _parent._com.Subscribe.Equipment.Gripper);
+  _iobridge.AddDigitalOutput(Gripper.PlusOutput, publish := _parent._com.Publish.Equipment.GripperAuf, subscribe := _parent._com.Subscribe.Equipment.GripperAuf);
+  {region "UserInitCode"}
+  // put your individual init code for this Actuator here
+  {endregion}
+
+  {attribute 'ZId' := 'd18888e4-9abb-463d-b01d-e5fd8694a677'}
+{endregion}
+
 {attribute '__ZwPlcUnitEquipmentImplementation__'} // Do not remove this attribute! It is used for code generation.
+
+  HorizontalListener.SetLogger(_parent._logger);
+  HorizontalListener.SetName('HorizontalActuatorListener');
+  
+  HorizontalPneumaticsCheckListener.SetLogger(_parent._logger);
+  HorizontalPneumaticsCheckListener.SetName('HorizontalPneumaticsCheckListener');
+  HorizontalPneumaticsCheckListener.SetPneumaticsOkIo(_parent._equipment.Io.PneumaticsOk);
+  
+  GripperPneumaticsCheckListener.SetLogger(_parent._logger);
+  GripperPneumaticsCheckListener.SetName('HorizontalPneumaticsCheckListener');
+  GripperPneumaticsCheckListener.SetPneumaticsOkIo(_parent._equipment.Io.PneumaticsOk);  
 
 _isInitialized := TRUE;]]></ST>
     </Implementation>
