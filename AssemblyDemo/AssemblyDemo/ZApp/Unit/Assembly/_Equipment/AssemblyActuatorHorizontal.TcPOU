@@ -1,46 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="AssemblyActuatorHorizontal" Id="{196ec157-31e8-4b8d-b982-83b8bbfd7f79}" SpecialFunc="None">
+  <POU Name="AssemblyActuatorHorizontal" Id="{5a6b0ae2-2644-488a-9e94-a94a5a3e6f46}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK AssemblyActuatorHorizontal EXTENDS ZEquipment.ActuatorDigitalBiLsPlusMinus]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="AufAsync" Id="{1ea74b0e-0c54-454f-91db-aa185b634da7}">
-      <Declaration><![CDATA[METHOD PUBLIC AufAsync
-VAR_INPUT
-  startToken : ZCore.IStartToken;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[MovePlusAsync(startToken:=startToken);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Geschlossen" Id="{65978c56-e093-4ff9-8324-3c45a04624bd}">
-      <Declaration><![CDATA[METHOD PUBLIC Geschlossen : BOOL
+    <Method Name="AtAssembly" Id="{800cf822-9882-4b7f-b25d-ebc7e3302dc8}">
+      <Declaration><![CDATA[METHOD PUBLIC AtAssembly : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Geschlossen := IsAtMinus();]]></ST>
+        <ST><![CDATA[AtAssembly := IsAtMinus();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Offen" Id="{522bd226-8ad2-4eea-a081-dd4db7eacc29}">
-      <Declaration><![CDATA[METHOD PUBLIC Offen : BOOL
+    <Method Name="AtTransport" Id="{6ab11686-3147-4a05-b4ab-0da8ea2c2a8f}">
+      <Declaration><![CDATA[METHOD PUBLIC AtTransport : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Offen := IsAtPlus();]]></ST>
+        <ST><![CDATA[AtTransport := IsAtPlus();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="ZuAsync" Id="{606c91d2-558a-4b15-8a49-17a1d19c8212}">
-      <Declaration><![CDATA[METHOD PUBLIC ZuAsync
+    <Method Name="ToAssemblyAsync" Id="{e521c05d-d0ae-46d9-992d-05e16a1bb6c3}">
+      <Declaration><![CDATA[METHOD PUBLIC ToAssemblyAsync
 VAR_INPUT
   startToken : ZCore.IStartToken;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[MoveMinusAsync(startToken:=startToken);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ToTransportAsync" Id="{ca110a1f-47ed-421f-8b27-693236ec321d}">
+      <Declaration><![CDATA[METHOD PUBLIC ToTransportAsync
+VAR_INPUT
+  startToken : ZCore.IStartToken;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[MovePlusAsync(startToken:=startToken);]]></ST>
       </Implementation>
     </Method>
   </POU>
